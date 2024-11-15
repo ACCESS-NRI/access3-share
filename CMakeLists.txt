@@ -137,7 +137,6 @@ endif()
 find_package(FoX 4.1.2 REQUIRED)
 find_package(NetCDF 4.7.3 REQUIRED Fortran)
 find_package(ESMF 8.3.0 MODULE REQUIRED)
-find_package(fms COMPONENTS R8 REQUIRED)
 find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
 
 #[==============================================================================[
@@ -152,74 +151,74 @@ add_subdirectory(share)
 # Data component (CDEPS)
 add_subdirectory(CDEPS)
 
-# Ocean component (MOM6)
-if(OM3_BUILD_MOM6)
-  add_subdirectory(MOM6)
-endif()
+# # Ocean component (MOM6)
+# if(OM3_BUILD_MOM6)
+#   add_subdirectory(MOM6)
+# endif()
 
-# Sea-ice component (CICE6)
-if(OM3_BUILD_CICE6)
-  add_subdirectory(CICE)
-endif()
+# # Sea-ice component (CICE6)
+# if(OM3_BUILD_CICE6)
+#   add_subdirectory(CICE)
+# endif()
 
-# Wave component (WW3)
-if(OM3_BUILD_WW3)
-  add_subdirectory(WW3)
-endif()
+# # Wave component (WW3)
+# if(OM3_BUILD_WW3)
+#   add_subdirectory(WW3)
+# endif()
 
 # Mediator component (CMEPS)
 add_subdirectory(CMEPS)
 
 # Add executable for each enabled configuration
-foreach(CONF IN LISTS KnownConfigurations)
-  if(NOT OM3_ENABLE_${CONF})
-    continue()
-  endif()
+# foreach(CONF IN LISTS KnownConfigurations)
+#   if(NOT OM3_ENABLE_${CONF})
+#     continue()
+#   endif()
 
-  set(ComponentsTargets "")
-  if(OM3_${CONF} MATCHES MOM6)
-    list(APPEND ComponentsTargets AccessOM3::mom6)
-  else()
-    list(APPEND ComponentsTargets AccessOM3::cdeps_docn)
-  endif()
-  if(OM3_${CONF} MATCHES CICE6)
-    list(APPEND ComponentsTargets AccessOM3::cice)
-  else()
-    list(APPEND ComponentsTargets AccessOM3::cdeps_dice)
-  endif()
-  if(OM3_${CONF} MATCHES WW3)
-    list(APPEND ComponentsTargets AccessOM3::ww3)
-  else()
-    list(APPEND ComponentsTargets AccessOM3::cdeps_dwav)
-  endif()
+#   set(ComponentsTargets "")
+#   if(OM3_${CONF} MATCHES MOM6)
+#     list(APPEND ComponentsTargets AccessOM3::mom6)
+#   else()
+#     list(APPEND ComponentsTargets AccessOM3::cdeps_docn)
+#   endif()
+#   if(OM3_${CONF} MATCHES CICE6)
+#     list(APPEND ComponentsTargets AccessOM3::cice)
+#   else()
+#     list(APPEND ComponentsTargets AccessOM3::cdeps_dice)
+#   endif()
+#   if(OM3_${CONF} MATCHES WW3)
+#     list(APPEND ComponentsTargets AccessOM3::ww3)
+#   else()
+#     list(APPEND ComponentsTargets AccessOM3::cdeps_dwav)
+#   endif()
 
-  # We use the CESM driver from CMEPS
-  add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
-    CMEPS/CMEPS/cesm/driver/esm.F90
-    CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
-    CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
-  )
-  target_link_libraries(OM3_cesm_driver_${CONF}
-    PUBLIC esmf
-    PRIVATE ${ComponentsTargets} AccessOM3::cdeps_drof AccessOM3::cdeps_datm AccessOM3::cmeps AccessOM3::nuopc_cap_share AccessOM3::share AccessOM3::timing
-  )
-  target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
-                                                             ATM_PRESENT
-                                                             ICE_PRESENT
-                                                             OCN_PRESENT
-                                                             WAV_PRESENT
-                                                             ROF_PRESENT
-                                                             $<$<CONFIG:Debug>:DEBUG>
-  )
+#   # We use the CESM driver from CMEPS
+#   add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
+#     CMEPS/CMEPS/cesm/driver/esm.F90
+#     CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
+#     CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
+#   )
+#   target_link_libraries(OM3_cesm_driver_${CONF}
+#     PUBLIC esmf
+#     PRIVATE ${ComponentsTargets} AccessOM3::cdeps_drof AccessOM3::cdeps_datm AccessOM3::cmeps AccessOM3::nuopc_cap_share AccessOM3::share AccessOM3::timing
+#   )
+#   target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
+#                                                              ATM_PRESENT
+#                                                              ICE_PRESENT
+#                                                              OCN_PRESENT
+#                                                              WAV_PRESENT
+#                                                              ROF_PRESENT
+#                                                              $<$<CONFIG:Debug>:DEBUG>
+#   )
 
-  add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
-  target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} AccessOM3::share esmf)
+#   add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
+#   target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} AccessOM3::share esmf)
 
-  set_target_properties(OM3_${CONF} PROPERTIES
-    LINKER_LANGUAGE Fortran
-    OUTPUT_NAME access-om3-${CONF}
-  )
-endforeach()
+#   set_target_properties(OM3_${CONF} PROPERTIES
+#     LINKER_LANGUAGE Fortran
+#     OUTPUT_NAME access-om3-${CONF}
+#   )
+# endforeach()
 
 #[==============================================================================[
 #                             Install or Export                                 #
@@ -230,27 +229,27 @@ endforeach()
 # Note that the installation of some components is done in the corresponding subdirectory
 
 # OM3 executables
-if(OM3_BIN_INSTALL)
-  foreach(CONF IN LISTS KnownConfigurations)
-    if(NOT OM3_ENABLE_${CONF})
-      continue()
-    endif()
+# if(OM3_BIN_INSTALL)
+#   foreach(CONF IN LISTS KnownConfigurations)
+#     if(NOT OM3_ENABLE_${CONF})
+#       continue()
+#     endif()
 
-    install(TARGETS OM3_${CONF}
-      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
-  endforeach()
-endif()
+#     install(TARGETS OM3_${CONF}
+#       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#     )
+#   endforeach()
+# endif()
 
-# Libraries
-if(OM3_LIB_INSTALL)
-  configure_package_config_file(
-    cmake/AccessOM3Config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/AccessOM3Config.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
-  )
-  install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_CURRENT_BINARY_DIR}/AccessOM3Config.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
-    COMPONENT AccessOM3_Development
-  )
-endif()
+# # Libraries
+# if(OM3_LIB_INSTALL)
+# configure_package_config_file(
+#   cmake/Access3ShareConfig.cmake.in
+#   ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+#   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3Share
+# )
+install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake #${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+  COMPONENT Access3Share
+)
+# endif()
