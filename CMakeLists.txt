@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.18)
 #                         Basic project definition                              #
 #]==============================================================================]
 
-project(ACCESS-OM3 VERSION "0.2.0"
-                  HOMEPAGE_URL https://github.com/COSIMA/access-om3
+project(Access3Share VERSION "0.3.1"
+                  HOMEPAGE_URL https://github.com/access-nri/access-om3
                   DESCRIPTION "Global coupled ocean - sea ice - wave model"
                   LANGUAGES C Fortran)
 
@@ -35,20 +35,20 @@ message(STATUS "  - CICE6-WW3         ${OM3_ENABLE_CICE6-WW3}")
 message(STATUS "  - MOM6-CICE6-WW3    ${OM3_ENABLE_MOM6-CICE6-WW3}")
 
 # Build options
-option(OM3_BIN_INSTALL   "Instal ACCESS-OM3 executables" ${PROJECT_IS_TOP_LEVEL})
+option(OM3_BIN_INSTALL   "Instal ACCESS-OM3 executables" ON)
 option(OM3_LIB_INSTALL   "Instal ACCESS-OM3 libraries" OFF)
 option(OM3_OPENMP        "Enable OpenMP threading" OFF)
 option(OM3_MOM_SYMMETRIC "Use symmetric memory" OFF)
-set(OM3_CICE_IO   "PIO" CACHE STRING "CICE OPTIONS: Choose IO options.")
-set_property(CACHE OM3_CICE_IO PROPERTY STRINGS "NetCDF" "PIO" "Binary")
+
+if(OM3_LIB_INSTALL)
+  set(OM3_BIN_INSTALL OFF)
+endif()
 
 message(STATUS "Build options")
 message(STATUS "  - OM3_BIN_INSTALL   ${OM3_BIN_INSTALL}")
 message(STATUS "  - OM3_LIB_INSTALL   ${OM3_LIB_INSTALL}")
 message(STATUS "  - OM3_OPENMP        ${OM3_OPENMP}")
 message(STATUS "  - OM3_MOM_SYMMETRIC ${OM3_MOM_SYMMETRIC}")
-message(STATUS "  - OM3_CICE_IO       ${OM3_CICE_IO}")
-
 
 #[==============================================================================[
 #                           Project configuration                               #
@@ -193,26 +193,26 @@ add_subdirectory(CMEPS)
 #   endif()
 
 #   # We use the CESM driver from CMEPS
-#   add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
-#     CMEPS/CMEPS/cesm/driver/esm.F90
-#     CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
-#     CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
-#   )
-#   target_link_libraries(OM3_cesm_driver_${CONF}
-#     PUBLIC esmf
-#     PRIVATE ${ComponentsTargets} AccessOM3::cdeps_drof AccessOM3::cdeps_datm AccessOM3::cmeps AccessOM3::nuopc_cap_share AccessOM3::share AccessOM3::timing
-#   )
-#   target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
-#                                                              ATM_PRESENT
-#                                                              ICE_PRESENT
-#                                                              OCN_PRESENT
-#                                                              WAV_PRESENT
-#                                                              ROF_PRESENT
-#                                                              $<$<CONFIG:Debug>:DEBUG>
-#   )
+#   # add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
+#   #   CMEPS/CMEPS/cesm/driver/esm.F90
+#   #   CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
+#   #   CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
+#   # )
+#   # target_link_libraries(OM3_cesm_driver_${CONF}
+#   #   PUBLIC esmf
+#   #   PRIVATE ${ComponentsTargets} AccessOM3::cdeps_drof AccessOM3::cdeps_datm AccessOM3::cmeps AccessOM3::nuopc_cap_share AccessOM3::share AccessOM3::timing
+#   # )
+#   # target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
+#   #                                                            ATM_PRESENT
+#   #                                                            ICE_PRESENT
+#   #                                                            OCN_PRESENT
+#   #                                                            WAV_PRESENT
+#   #                                                            ROF_PRESENT
+#   #                                                            $<$<CONFIG:Debug>:DEBUG>
+#   # )
 
-#   add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
-#   target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} AccessOM3::share esmf)
+#   # add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
+#   # target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} AccessOM3::share esmf)
 
 #   set_target_properties(OM3_${CONF} PROPERTIES
 #     LINKER_LANGUAGE Fortran
@@ -242,14 +242,14 @@ add_subdirectory(CMEPS)
 # endif()
 
 # # Libraries
-# if(OM3_LIB_INSTALL)
-# configure_package_config_file(
-#   cmake/Access3ShareConfig.cmake.in
-#   ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
-#   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3Share
-# )
-install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake #${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-  COMPONENT Access3Share
-)
-# endif()
+if(OM3_LIB_INSTALL)
+  configure_package_config_file(
+    cmake/Access3ShareConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+  )
+  install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+    COMPONENT Access3Share
+  )
+endif()

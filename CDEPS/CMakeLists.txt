@@ -110,6 +110,22 @@ if(OM3_LIB_INSTALL)
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_RunTime NAMELINK_COMPONENT AccessOM3_Development
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_Development
   )
+  # Fortran module files are a special case, as currently there is no standard
+    # way of handling them in CMake
+    target_include_directories(OM3_cdeps_common PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common>")
+    get_target_property(common_moddir OM3_cdeps_common Fortran_MODULE_DIRECTORY)
+    install(FILES 
+      ${common_moddir}/dshr_methods_mod.mod
+      ${common_moddir}/dshr_strdata_mod.mod
+      ${common_moddir}/dshr_stream_mod.mod
+      ${common_moddir}/dshr_tinterp_mod.mod
+    
+      ${common_moddir}/dshr_dfield_mod.mod
+      ${common_moddir}/dshr_fldlist_mod.mod
+      ${common_moddir}/dshr_mod.mod
+      DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common
+      COMPONENT AccessOM3_Development
+    )
   # components
   foreach(LIB atm ocn ice wav rof)
     set_target_properties(OM3_cdeps_d${LIB} PROPERTIES
@@ -133,6 +149,6 @@ if(OM3_LIB_INSTALL)
   install(EXPORT AccessOM3cdeps_Targets
     FILE AccessOM3cdepsTargets.cmake
     NAMESPACE AccessOM3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()

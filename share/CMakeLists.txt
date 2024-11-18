@@ -99,7 +99,7 @@ if(OM3_LIB_INSTALL)
   install(EXPORT AccessOM3share_Targets
     FILE AccessOM3shareTargets.cmake
     NAMESPACE AccessOM3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 
   ## timing library
@@ -123,6 +123,6 @@ if(OM3_LIB_INSTALL)
   install(EXPORT AccessOM3timing_Targets
     FILE AccessOM3timingTargets.cmake
     NAMESPACE AccessOM3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()

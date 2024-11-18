@@ -89,7 +89,7 @@ if(OM3_LIB_INSTALL)
   install(EXPORT AccessOM3cmeps_Targets
     FILE AccessOM3cmepsTargets.cmake
     NAMESPACE AccessOM3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 
   ## NUOPC cap share
@@ -113,6 +113,6 @@ if(OM3_LIB_INSTALL)
   install(EXPORT AccessOM3nuopc_cap_share_Targets
     FILE AccessOM3nuopc_cap_shareTargets.cmake
     NAMESPACE AccessOM3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/AccessOM3
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()
