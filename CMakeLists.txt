@@ -17,38 +17,43 @@ project(Access3Share VERSION "0.3.1"
 # Configurations to build
 list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3)
 
-option(OM3_ENABLE_MOM6           "Build MOM6 configuration" OFF)
-option(OM3_ENABLE_CICE6          "Build CICE6 configuration" OFF)
-option(OM3_ENABLE_WW3            "Build WW3 configuration" OFF)
-option(OM3_ENABLE_MOM6-WW3       "Build MOM6-WW3 configuration" OFF)
-option(OM3_ENABLE_MOM6-CICE6     "Build MOM6-CICE6 configuration" ON)
-option(OM3_ENABLE_CICE6-WW3      "Build CICE6-WW3 configuration" ON)
-option(OM3_ENABLE_MOM6-CICE6-WW3 "Build MOM6-CICE6-WW3 configuration" ON)
-
-message(STATUS "Configurations")
-message(STATUS "  - MOM6              ${OM3_ENABLE_MOM6}")
-message(STATUS "  - CICE6             ${OM3_ENABLE_CICE6}")
-message(STATUS "  - WW3               ${OM3_ENABLE_WW3}")
-message(STATUS "  - MOM6-WW3          ${OM3_ENABLE_MOM6-WW3}")
-message(STATUS "  - MOM6-CICE6        ${OM3_ENABLE_MOM6-CICE6}")
-message(STATUS "  - CICE6-WW3         ${OM3_ENABLE_CICE6-WW3}")
-message(STATUS "  - MOM6-CICE6-WW3    ${OM3_ENABLE_MOM6-CICE6-WW3}")
 
 # Build options
-option(OM3_BIN_INSTALL   "Instal ACCESS-OM3 executables" ON)
-option(OM3_LIB_INSTALL   "Instal ACCESS-OM3 libraries" OFF)
-option(OM3_OPENMP        "Enable OpenMP threading" OFF)
-option(OM3_MOM_SYMMETRIC "Use symmetric memory" OFF)
+option(OM3_BIN_INSTALL       "Install ACCESS-OM3 executables" ON)
+option(ACCESS3_LIB_INSTALL   "Install ACCESS-OM3 libraries" OFF)
+option(ACCESS3_OPENMP        "Enable OpenMP threading" OFF)
+# option(ACCESS3_MOM_SYMMETRIC "Use symmetric memory" OFF) #move to MOM6
 
-if(OM3_LIB_INSTALL)
+if(ACCESS3_LIB_INSTALL)
   set(OM3_BIN_INSTALL OFF)
 endif()
 
 message(STATUS "Build options")
 message(STATUS "  - OM3_BIN_INSTALL   ${OM3_BIN_INSTALL}")
-message(STATUS "  - OM3_LIB_INSTALL   ${OM3_LIB_INSTALL}")
-message(STATUS "  - OM3_OPENMP        ${OM3_OPENMP}")
-message(STATUS "  - OM3_MOM_SYMMETRIC ${OM3_MOM_SYMMETRIC}")
+message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
+message(STATUS "  - ACCESS3_OPENMP        ${ACCESS3_OPENMP}")
+# message(STATUS "  - ACCESS3_MOM_SYMMETRIC ${ACCESS3_MOM_SYMMETRIC}")
+
+if (OM3_BIN_INSTALL)
+
+  option(OM3_ENABLE_MOM6           "Build MOM6 configuration" OFF)
+  option(OM3_ENABLE_CICE6          "Build CICE6 configuration" OFF)
+  option(OM3_ENABLE_WW3            "Build WW3 configuration" OFF)
+  option(OM3_ENABLE_MOM6-WW3       "Build MOM6-WW3 configuration" OFF)
+  option(OM3_ENABLE_MOM6-CICE6     "Build MOM6-CICE6 configuration" ON)
+  option(OM3_ENABLE_CICE6-WW3      "Build CICE6-WW3 configuration" ON)
+  option(OM3_ENABLE_MOM6-CICE6-WW3 "Build MOM6-CICE6-WW3 configuration" ON)
+
+  message(STATUS "Configurations")
+  message(STATUS "  - MOM6              ${OM3_ENABLE_MOM6}")
+  message(STATUS "  - CICE6             ${OM3_ENABLE_CICE6}")
+  message(STATUS "  - WW3               ${OM3_ENABLE_WW3}")
+  message(STATUS "  - MOM6-WW3          ${OM3_ENABLE_MOM6-WW3}")
+  message(STATUS "  - MOM6-CICE6        ${OM3_ENABLE_MOM6-CICE6}")
+  message(STATUS "  - CICE6-WW3         ${OM3_ENABLE_CICE6-WW3}")
+  message(STATUS "  - MOM6-CICE6-WW3    ${OM3_ENABLE_MOM6-CICE6-WW3}")
+
+endif()
 
 #[==============================================================================[
 #                           Project configuration                               #
@@ -56,7 +61,7 @@ message(STATUS "  - OM3_MOM_SYMMETRIC ${OM3_MOM_SYMMETRIC}")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(GNUInstallDirs)
-if(OM3_LIB_INSTALL)
+if(ACCESS3_LIB_INSTALL)
   include(CMakePackageConfigHelpers)
 endif()
 
@@ -65,27 +70,25 @@ include(FortranLib)
 include(AddPatchedSource)
 
 ## Configure project variables
+if (OM3_BIN_INSTALL)
+  # Do not build components that are not going to be used
+  if(OM3_ENABLE_MOM6 OR OM3_ENABLE_MOM6-CICE6 OR OM3_ENABLE_MOM6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
+    set(OM3_ENABLE_MOM6 ON)
+  else()
+    set(OM3_ENABLE_MOM6 OFF)
+  endif()
+  if(OM3_ENABLE_CICE6 OR OM3_ENABLE_MOM6-CICE6 OR OM3_ENABLE_CICE6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
+    set(OM3_ENABLE_CICE6 ON)
+  else()
+    set(OM3_ENABLE_CICE6 OFF)
+  endif()
+  if(OM3_ENABLE_WW3 OR OM3_ENABLE_MOM6-WW3 OR OM3_ENABLE_CICE6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
+    set(OM3_ENABLE_WW3 ON)
+  else()
+    set(OM3_ENABLE_WW3 OFF)
+  endif()
 
-# Do not build components that are not going to be used
-if(OM3_ENABLE_MOM6 OR OM3_ENABLE_MOM6-CICE6 OR OM3_ENABLE_MOM6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
-  set(OM3_BUILD_MOM6 ON)
-else()
-  set(OM3_BUILD_MOM6 OFF)
 endif()
-if(OM3_ENABLE_CICE6 OR OM3_ENABLE_MOM6-CICE6 OR OM3_ENABLE_CICE6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
-  set(OM3_BUILD_CICE6 ON)
-else()
-  set(OM3_BUILD_CICE6 OFF)
-endif()
-if(OM3_ENABLE_WW3 OR OM3_ENABLE_MOM6-WW3 OR OM3_ENABLE_CICE6-WW3 OR OM3_ENABLE_MOM6-CICE6-WW3)
-  set(OM3_BUILD_WW3 ON)
-else()
-  set(OM3_BUILD_WW3 OFF)
-endif()
-message(STATUS "Components to build")
-message(STATUS "  - OM3_BUILD_MOM6    ${OM3_BUILD_MOM6}")
-message(STATUS "  - OM3_BUILD_CICE6   ${OM3_BUILD_CICE6}")
-message(STATUS "  - OM3_BUILD_WW3     ${OM3_BUILD_WW3}")
 
 # Common compiler flags and definitions
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
@@ -131,94 +134,91 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 
 # Find dependencies
 find_package(MPI REQUIRED)
-if(OM3_OPENMP)
+find_package(ESMF 8.3.0 MODULE REQUIRED)
+if(ACCESS3_OPENMP)
   find_package(OpenMP REQUIRED)
 endif()
-find_package(FoX 4.1.2 REQUIRED)
-find_package(NetCDF 4.7.3 REQUIRED Fortran)
-find_package(ESMF 8.3.0 MODULE REQUIRED)
-find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
 
+if (ACCESS3_LIB_INSTALL)
+  find_package(FoX 4.1.2 REQUIRED)
+  find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
+  find_package(NetCDF 4.7.3 REQUIRED Fortran)
+endif()
+
+if (OM3_BIN_INSTALL)
+  find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) #should this list components which are required?
+  if(OM3_ENABLE_CICE6)
+    # find_package(Access3Share REQUIRED cdeps-docn)
+    find_package(AccessCiceCmeps REQUIRED)
+  endif()
+endif()
 #[==============================================================================[
 #                             Main definitions                                  #
 #]==============================================================================]
 
-# Some code shared by several components
-add_subdirectory(share)
+if(ACCESS3_LIB_INSTALL)
+  # Some code shared by several components
+  add_subdirectory(share)
 
-## Components
+  # Data component (CDEPS)
+  add_subdirectory(CDEPS)
 
-# Data component (CDEPS)
-add_subdirectory(CDEPS)
+  # Mediator component (CMEPS)
+  add_subdirectory(CMEPS)
+endif()
 
-# # Ocean component (MOM6)
-# if(OM3_BUILD_MOM6)
-#   add_subdirectory(MOM6)
-# endif()
+if (OM3_BIN_INSTALL)
+  # Add executable for each enabled configuration
+  foreach(CONF IN LISTS KnownConfigurations)
+    if(NOT OM3_ENABLE_${CONF})
+      continue()
+    endif()
 
-# # Sea-ice component (CICE6)
-# if(OM3_BUILD_CICE6)
-#   add_subdirectory(CICE)
-# endif()
+    set(ComponentsTargets "")
+    if(OM3_${CONF} MATCHES MOM6)
+      list(APPEND ComponentsTargets AccessMom6::mom6-cmeps)
+    else()
+      list(APPEND ComponentsTargets Access3Share::cdeps-docn)
+    endif()
+    if(OM3_${CONF} MATCHES CICE6)
+      list(APPEND ComponentsTargets AccessCiceCmeps::cice-cmeps)
+    else()
+      list(APPEND ComponentsTargets Access3Share::cdeps-dice)
+    endif()
+    if(OM3_${CONF} MATCHES WW3)
+      list(APPEND ComponentsTargets AccessWw3::ww3-cmeps)
+    else()
+      list(APPEND ComponentsTargets Access3Share::cdeps-dwav)
+    endif()
 
-# # Wave component (WW3)
-# if(OM3_BUILD_WW3)
-#   add_subdirectory(WW3)
-# endif()
+      # We use the CESM driver from CMEPS
+    add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
+      CMEPS/CMEPS/cesm/driver/esm.F90
+      CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
+      CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
+    )
+    target_link_libraries(OM3_cesm_driver_${CONF}
+      PUBLIC esmf
+      PRIVATE ${ComponentsTargets} Access3Share::cdeps-drof Access3Share::cdeps-datm Access3Share::cmeps Access3Share::nuopc_cap_share Access3Share::share Access3Share::timing
+    )
+    target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
+                                                                ATM_PRESENT
+                                                                ICE_PRESENT
+                                                                OCN_PRESENT
+                                                                WAV_PRESENT
+                                                                ROF_PRESENT
+                                                                $<$<CONFIG:Debug>:DEBUG>
+    )
 
-# Mediator component (CMEPS)
-add_subdirectory(CMEPS)
+    add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
+    target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} Access3Share::share esmf)
 
-# Add executable for each enabled configuration
-# foreach(CONF IN LISTS KnownConfigurations)
-#   if(NOT OM3_ENABLE_${CONF})
-#     continue()
-#   endif()
-
-#   set(ComponentsTargets "")
-#   if(OM3_${CONF} MATCHES MOM6)
-#     list(APPEND ComponentsTargets AccessOM3::mom6)
-#   else()
-#     list(APPEND ComponentsTargets AccessOM3::cdeps_docn)
-#   endif()
-#   if(OM3_${CONF} MATCHES CICE6)
-#     list(APPEND ComponentsTargets AccessOM3::cice)
-#   else()
-#     list(APPEND ComponentsTargets AccessOM3::cdeps_dice)
-#   endif()
-#   if(OM3_${CONF} MATCHES WW3)
-#     list(APPEND ComponentsTargets AccessOM3::ww3)
-#   else()
-#     list(APPEND ComponentsTargets AccessOM3::cdeps_dwav)
-#   endif()
-
-#   # We use the CESM driver from CMEPS
-#   # add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
-#   #   CMEPS/CMEPS/cesm/driver/esm.F90
-#   #   CMEPS/CMEPS/cesm/driver/ensemble_driver.F90
-#   #   CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
-#   # )
-#   # target_link_libraries(OM3_cesm_driver_${CONF}
-#   #   PUBLIC esmf
-#   #   PRIVATE ${ComponentsTargets} AccessOM3::cdeps_drof AccessOM3::cdeps_datm AccessOM3::cmeps AccessOM3::nuopc_cap_share AccessOM3::share AccessOM3::timing
-#   # )
-#   # target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
-#   #                                                            ATM_PRESENT
-#   #                                                            ICE_PRESENT
-#   #                                                            OCN_PRESENT
-#   #                                                            WAV_PRESENT
-#   #                                                            ROF_PRESENT
-#   #                                                            $<$<CONFIG:Debug>:DEBUG>
-#   # )
-
-#   # add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
-#   # target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} AccessOM3::share esmf)
-
-#   set_target_properties(OM3_${CONF} PROPERTIES
-#     LINKER_LANGUAGE Fortran
-#     OUTPUT_NAME access-om3-${CONF}
-#   )
-# endforeach()
+    set_target_properties(OM3_${CONF} PROPERTIES
+      LINKER_LANGUAGE Fortran
+      OUTPUT_NAME access-om3-${CONF}
+    )
+  endforeach()
+endif()
 
 #[==============================================================================[
 #                             Install or Export                                 #
@@ -229,20 +229,20 @@ add_subdirectory(CMEPS)
 # Note that the installation of some components is done in the corresponding subdirectory
 
 # OM3 executables
-# if(OM3_BIN_INSTALL)
-#   foreach(CONF IN LISTS KnownConfigurations)
-#     if(NOT OM3_ENABLE_${CONF})
-#       continue()
-#     endif()
+if(OM3_BIN_INSTALL)
+  foreach(CONF IN LISTS KnownConfigurations)
+    if(NOT OM3_ENABLE_${CONF})
+      continue()
+    endif()
 
-#     install(TARGETS OM3_${CONF}
-#       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#     )
-#   endforeach()
-# endif()
+    install(TARGETS OM3_${CONF}
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+  endforeach()
+endif()
 
 # # Libraries
-if(OM3_LIB_INSTALL)
+if(ACCESS3_LIB_INSTALL)
   configure_package_config_file(
     cmake/Access3ShareConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake

@@ -1,19 +1,19 @@
 ### Targets
 
 ## share library
-add_fortran_library(OM3_share mod/share STATIC)
-add_library(AccessOM3::share ALIAS OM3_share)
-target_include_directories(OM3_share PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/CESM_share/include>")
+add_fortran_library(share mod/share STATIC)
+add_library(Access3Share::share ALIAS share)
+target_include_directories(share PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/CESM_share/include>")
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
-  target_compile_definitions(OM3_share PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+  target_compile_definitions(share PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
-  target_compile_definitions(OM3_share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+  target_compile_definitions(share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
-target_link_libraries(OM3_share
+target_link_libraries(share
   PUBLIC esmf PIO::PIO_Fortran
-  PRIVATE AccessOM3::timing
+  PRIVATE Access3Share::timing
 )
-target_sources(OM3_share PRIVATE
+target_sources(share PRIVATE
   # The following files are generated with a script acting on templates
   # We include pre-generated files that are committed to the repository
   src/shr_assert_mod.F90
@@ -46,23 +46,23 @@ target_sources(OM3_share PRIVATE
   # The following file is a stub.
   stubs/mct_mod.F90
 )
-add_patched_source(OM3_share CESM_share/src/shr_const_mod.F90)
+add_patched_source(share CESM_share/src/shr_const_mod.F90)
 if(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   # CESM reduces the precision and increases speed for the following file
   set_source_files_properties(CESM_share/src/shr_wv_sat_mod.F90 PROPERTIES COMPILE_FLAGS "-fimf-precision=low -fp-model fast")
 endif()
 
 ## GPTL timing library
-add_fortran_library(OM3_timing mod/timing STATIC)
-add_library(AccessOM3::timing ALIAS OM3_timing)
-target_compile_definitions(OM3_timing PRIVATE NUOPC_INTERFACE HAVE_MPI)
+add_fortran_library(ACCESS3_timing mod/timing STATIC)
+add_library(Access3Share::timing ALIAS ACCESS3_timing)
+target_compile_definitions(ACCESS3_timing PRIVATE NUOPC_INTERFACE HAVE_MPI)
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
-  target_compile_definitions(OM3_timing PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+  target_compile_definitions(ACCESS3_timing PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
-  target_compile_definitions(OM3_timing PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+  target_compile_definitions(ACCESS3_timing PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
-target_link_libraries(OM3_timing PRIVATE esmf)
-target_sources(OM3_timing PRIVATE
+target_link_libraries(ACCESS3_timing PRIVATE esmf)
+target_sources(ACCESS3_timing PRIVATE
   timing/f_wrappers.c
   timing/gptl.c
   timing/GPTLget_memusage.c
@@ -77,52 +77,52 @@ target_sources(OM3_timing PRIVATE
 
 ### Install and Export
 
-if(OM3_LIB_INSTALL)
+if(ACCESS3_LIB_INSTALL)
   ## share library
-  set_target_properties(OM3_share PROPERTIES
+  set_target_properties(share PROPERTIES
     OUTPUT_NAME access-share
     EXPORT_NAME share
   )
-  install(TARGETS OM3_share
-    EXPORT AccessOM3share_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_RunTime NAMELINK_COMPONENT AccessOM3_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_Development
+  install(TARGETS share
+    EXPORT Access3Shareshare_Targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
   )
   # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
-  target_include_directories(OM3_share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-share>")
-  get_target_property(share_moddir OM3_share Fortran_MODULE_DIRECTORY)
+  target_include_directories(share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-share>")
+  get_target_property(share_moddir share Fortran_MODULE_DIRECTORY)
   install(DIRECTORY ${share_moddir}/
     DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-share
-    COMPONENT AccessOM3_Development
+    COMPONENT Access3Share_Development
   )
-  install(EXPORT AccessOM3share_Targets
-    FILE AccessOM3shareTargets.cmake
-    NAMESPACE AccessOM3::
+  install(EXPORT Access3Shareshare_Targets
+    FILE Access3ShareshareTargets.cmake
+    NAMESPACE Access3Share::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 
   ## timing library
-  set_target_properties(OM3_timing PROPERTIES
+  set_target_properties(ACCESS3_timing PROPERTIES
     OUTPUT_NAME access-timing
     EXPORT_NAME timing
   )
-  install(TARGETS OM3_timing
-    EXPORT AccessOM3timing_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_RunTime NAMELINK_COMPONENT AccessOM3_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT AccessOM3_Development
+  install(TARGETS ACCESS3_timing
+    EXPORT Access3Sharetiming_Targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
   )
   # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
-  target_include_directories(OM3_timing PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-timing>")
-  get_target_property(timing_moddir OM3_timing Fortran_MODULE_DIRECTORY)
+  target_include_directories(ACCESS3_timing PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-timing>")
+  get_target_property(timing_moddir ACCESS3_timing Fortran_MODULE_DIRECTORY)
   install(DIRECTORY ${timing_moddir}/
     DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-timing
-    COMPONENT AccessOM3_Development
+    COMPONENT Access3Share_Development
   )
-  install(EXPORT AccessOM3timing_Targets
-    FILE AccessOM3timingTargets.cmake
-    NAMESPACE AccessOM3::
+  install(EXPORT Access3Sharetiming_Targets
+    FILE Access3SharetimingTargets.cmake
+    NAMESPACE Access3Share::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()
