@@ -21,7 +21,7 @@ list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM
 # Build options
 option(OM3_BIN_INSTALL       "Install ACCESS-OM3 executables" ON)
 option(ACCESS3_LIB_INSTALL   "Install ACCESS-OM3 libraries" OFF)
-option(ACCESS3_OPENMP        "Enable OpenMP threading" OFF)
+option(OPENMP                "Enable OpenMP threading" OFF)
 # option(ACCESS3_MOM_SYMMETRIC "Use symmetric memory" OFF) #move to MOM6
 
 if(ACCESS3_LIB_INSTALL)
@@ -31,7 +31,7 @@ endif()
 message(STATUS "Build options")
 message(STATUS "  - OM3_BIN_INSTALL   ${OM3_BIN_INSTALL}")
 message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
-message(STATUS "  - ACCESS3_OPENMP        ${ACCESS3_OPENMP}")
+message(STATUS "  - OPENMP        ${ACCESS3_OPENMP}")
 # message(STATUS "  - ACCESS3_MOM_SYMMETRIC ${ACCESS3_MOM_SYMMETRIC}")
 
 if (OM3_BIN_INSTALL)
@@ -87,7 +87,6 @@ if (OM3_BIN_INSTALL)
   else()
     set(OM3_ENABLE_WW3 OFF)
   endif()
-
 endif()
 
 # Common compiler flags and definitions
@@ -134,10 +133,11 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 
 # Find dependencies
 find_package(MPI REQUIRED)
-find_package(ESMF 8.3.0 MODULE REQUIRED)
-if(ACCESS3_OPENMP)
+if(OPENMP)
   find_package(OpenMP REQUIRED)
 endif()
+
+find_package(ESMF 8.3.0 MODULE REQUIRED)
 
 if (ACCESS3_LIB_INSTALL)
   find_package(FoX 4.1.2 REQUIRED)
@@ -146,12 +146,18 @@ if (ACCESS3_LIB_INSTALL)
 endif()
 
 if (OM3_BIN_INSTALL)
-  find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) #should this list components which are required?
+  find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) 
   if(OM3_ENABLE_CICE6)
-    # find_package(Access3Share REQUIRED cdeps-docn)
     find_package(AccessCiceCmeps REQUIRED)
   endif()
+  if(OM3_ENABLE_MOM6)
+    find_package(AccessMom6Cmeps REQUIRED)
+  endif()
+  if(OM3_ENABLE_WW3)
+    find_package(AccessWW3Cmeps REQUIRED)
+  endif()
 endif()
+
 #[==============================================================================[
 #                             Main definitions                                  #
 #]==============================================================================]
@@ -191,7 +197,7 @@ if (OM3_BIN_INSTALL)
       list(APPEND ComponentsTargets Access3Share::cdeps-dwav)
     endif()
 
-      # We use the CESM driver from CMEPS
+    # We use the CESM driver from CMEPS
     add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
       CMEPS/CMEPS/cesm/driver/esm.F90
       CMEPS/CMEPS/cesm/driver/ensemble_driver.F90

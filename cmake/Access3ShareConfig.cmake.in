@@ -53,9 +53,9 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 
-#if (cdeps IN_LIST _required_components)
+if (cdeps IN_LIST _required_components)
   find_dependency(FoX)
-#endif()
+endif()
 
 #MOVE / CHECK in MOM6 package
 #if (mom6 IN_LIST _required_components)
