@@ -44,9 +44,9 @@ if (OM3_BIN_INSTALL)
   option(OM3_ENABLE_CICE6          "Build CICE6 configuration" OFF)
   option(OM3_ENABLE_WW3            "Build WW3 configuration" OFF)
   option(OM3_ENABLE_MOM6-WW3       "Build MOM6-WW3 configuration" OFF)
-  option(OM3_ENABLE_MOM6-CICE6     "Build MOM6-CICE6 configuration" ON)
-  option(OM3_ENABLE_CICE6-WW3      "Build CICE6-WW3 configuration" ON)
-  option(OM3_ENABLE_MOM6-CICE6-WW3 "Build MOM6-CICE6-WW3 configuration" ON)
+  option(OM3_ENABLE_MOM6-CICE6     "Build MOM6-CICE6 configuration" OFF)
+  option(OM3_ENABLE_CICE6-WW3      "Build CICE6-WW3 configuration" OFF)
+  option(OM3_ENABLE_MOM6-CICE6-WW3 "Build MOM6-CICE6-WW3 configuration" OFF)
 
   message(STATUS "Configurations")
   message(STATUS "  - MOM6              ${OM3_ENABLE_MOM6}")
@@ -91,6 +91,10 @@ if (OM3_BIN_INSTALL)
   else()
     set(OM3_ENABLE_WW3 OFF)
   endif()
+  if(NOT (OM3_ENABLE_MOM6 OR OM3_ENABLE_CICE6 OR OM3_ENABLE_WW3))
+    message (FATAL_ERROR "No model components have been requested, atleast one OM3_ENABLE_ configuration must be set")
+  endif()
+
 endif()
 
 # Common compiler flags and definitions
