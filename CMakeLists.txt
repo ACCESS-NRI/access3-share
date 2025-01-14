@@ -1,3 +1,7 @@
+# This CMakeLists file has two options:
+# ACCESS3_LIB_INSTALL, to build shared libraries for CMEPS/CDEPS etc
+# OM3_BIN_INSTALL, to build ACCESS-OM3 using CMEPS code and linked to model components (built elsewhere)
+
 cmake_minimum_required(VERSION 3.18)
 # CMake version compatibility
 
@@ -6,7 +10,7 @@ cmake_minimum_required(VERSION 3.18)
 #]==============================================================================]
 
 project(Access3Share VERSION "0.3.1"
-                  HOMEPAGE_URL https://github.com/access-nri/access-om3
+                  HOMEPAGE_URL https://github.com/access-nri/access3-share
                   DESCRIPTION "Global coupled ocean - sea ice - wave model"
                   LANGUAGES C Fortran)
 
@@ -21,7 +25,7 @@ list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM
 # Build options
 option(OM3_BIN_INSTALL       "Install ACCESS-OM3 executables" ON)
 option(ACCESS3_LIB_INSTALL   "Install ACCESS-OM3 libraries" OFF)
-option(OPENMP                "Enable OpenMP threading" OFF)
+# option(OPENMP                "Enable OpenMP threading" OFF)
 # option(ACCESS3_MOM_SYMMETRIC "Use symmetric memory" OFF) #move to MOM6
 
 if(ACCESS3_LIB_INSTALL)
@@ -31,8 +35,8 @@ endif()
 message(STATUS "Build options")
 message(STATUS "  - OM3_BIN_INSTALL   ${OM3_BIN_INSTALL}")
 message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
-message(STATUS "  - OPENMP        ${ACCESS3_OPENMP}")
-# message(STATUS "  - ACCESS3_MOM_SYMMETRIC ${ACCESS3_MOM_SYMMETRIC}")
+# message(STATUS "  - OPENMP        ${ACCESS3_OPENMP}")
+# message(STATUS "  - ACCESS3_MOM_SYMMETRIC ${ACCESS3_MOM_SYMMETRIC}") #move to MOM6
 
 if (OM3_BIN_INSTALL)
 
@@ -133,9 +137,9 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 
 # Find dependencies
 find_package(MPI REQUIRED)
-if(OPENMP)
-  find_package(OpenMP REQUIRED)
-endif()
+# if(OPENMP)
+#   find_package(OpenMP REQUIRED)
+# endif()
 
 find_package(ESMF 8.3.0 MODULE REQUIRED)
 
@@ -148,7 +152,8 @@ endif()
 if (OM3_BIN_INSTALL)
   find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) 
   if(OM3_ENABLE_CICE6)
-    find_package(Cicelib REQUIRED COMPONENTS AccessCiceCmeps IO_PIO)
+  #TO-DO remove hardcoded IO_PIO ?
+    find_package(Cicelib REQUIRED COMPONENTS IO_PIO)
   endif()
   if(OM3_ENABLE_MOM6)
     find_package(AccessMom6Cmeps REQUIRED)
@@ -232,8 +237,6 @@ endif()
 
 ## Installs
 
-# Note that the installation of some components is done in the corresponding subdirectory
-
 # OM3 executables
 if(OM3_BIN_INSTALL)
   foreach(CONF IN LISTS KnownConfigurations)
@@ -249,6 +252,8 @@ endif()
 
 # # Libraries
 if(ACCESS3_LIB_INSTALL)
+# Note that the installation of some components is done in the corresponding subdirectory
+
   configure_package_config_file(
     cmake/Access3ShareConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
