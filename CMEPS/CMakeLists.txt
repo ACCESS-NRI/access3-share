@@ -2,10 +2,10 @@
 
 ## CMEPS library
 add_fortran_library(ACCESS3_cmeps mod/cmeps STATIC)
-add_library(Access3Share::cmeps ALIAS ACCESS3_cmeps)
+add_library(Access3::cmeps ALIAS ACCESS3_cmeps)
 target_link_libraries(ACCESS3_cmeps
   PUBLIC esmf
-  PRIVATE Access3Share::nuopc_cap_share Access3Share::share Access3Share::timing
+  PRIVATE Access3::nuopc_cap_share Access3::share Access3::timing
 )
 if(OpenMP_Fortran_FOUND)
   target_link_libraries(ACCESS3_cmeps PRIVATE OpenMP::OpenMP_Fortran)
@@ -52,10 +52,10 @@ add_patched_source(ACCESS3_cmeps CMEPS/mediator/med_phases_history_mod.F90)
 
 ## NUOPC cap share
 add_fortran_library(ACCESS3_nuopc_cap_share mod/nuopc_cap_share STATIC)
-add_library(Access3Share::nuopc_cap_share ALIAS ACCESS3_nuopc_cap_share)
+add_library(Access3::nuopc_cap_share ALIAS ACCESS3_nuopc_cap_share)
 target_link_libraries(ACCESS3_nuopc_cap_share
   PUBLIC esmf
-  PRIVATE Access3Share::share
+  PRIVATE Access3::share
 )
 target_sources(ACCESS3_nuopc_cap_share PRIVATE
   CMEPS/cesm/nuopc_cap_share/driver_pio_mod.F90
@@ -88,7 +88,7 @@ if(ACCESS3_LIB_INSTALL)
   )
   install(EXPORT Access3Sharecmeps_Targets
     FILE Access3SharecmepsTargets.cmake
-    NAMESPACE Access3Share::
+    NAMESPACE Access3::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 
@@ -112,7 +112,7 @@ if(ACCESS3_LIB_INSTALL)
   )
   install(EXPORT Access3Sharenuopc_cap_share_Targets
     FILE Access3Sharenuopc_cap_shareTargets.cmake
-    NAMESPACE Access3Share::
+    NAMESPACE Access3::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()

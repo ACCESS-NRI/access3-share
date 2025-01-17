@@ -2,11 +2,11 @@
 
 ## Common library
 add_fortran_library(ACCESS3_cdeps_common mod/common STATIC)
-add_library(Access3Share::cdeps_common ALIAS ACCESS3_cdeps_common)
+add_library(Access3::cdeps_common ALIAS ACCESS3_cdeps_common)
 target_include_directories(ACCESS3_cdeps_common PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_common
   PUBLIC esmf
-  PRIVATE Access3Share::share Access3Share::cmeps Access3Share::nuopc_cap_share FoX::FoX PIO::PIO_Fortran
+  PRIVATE Access3::share Access3::cmeps Access3::nuopc_cap_share FoX::FoX PIO::PIO_Fortran
 )
 target_sources(ACCESS3_cdeps_common PRIVATE
   CDEPS/streams/dshr_methods_mod.F90
@@ -21,11 +21,11 @@ target_sources(ACCESS3_cdeps_common PRIVATE
 
 ## DATM
 add_fortran_library(ACCESS3_cdeps_datm mod/datm STATIC)
-add_library(Access3Share::cdeps_datm ALIAS ACCESS3_cdeps_datm)
+add_library(Access3::cdeps_datm ALIAS ACCESS3_cdeps_datm)
 target_include_directories(ACCESS3_cdeps_datm PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_datm
   PUBLIC esmf
-  PRIVATE Access3Share::cdeps_common Access3Share::share
+  PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_datm PRIVATE
   CDEPS/datm/datm_datamode_cfsr_mod.F90
@@ -42,11 +42,11 @@ add_patched_source(ACCESS3_cdeps_datm CDEPS/datm/atm_comp_nuopc.F90)
 
 ## DOCN
 add_fortran_library(ACCESS3_cdeps_docn mod/docn STATIC)
-add_library(Access3Share::cdeps_docn ALIAS ACCESS3_cdeps_docn)
+add_library(Access3::cdeps_docn ALIAS ACCESS3_cdeps_docn)
 target_include_directories(ACCESS3_cdeps_docn PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_docn
   PUBLIC esmf
-  PRIVATE Access3Share::cdeps_common Access3Share::share
+  PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_docn PRIVATE
   CDEPS/docn/docn_datamode_aquaplanet_mod.F90
@@ -60,11 +60,11 @@ target_sources(ACCESS3_cdeps_docn PRIVATE
 
 ## DICE
 add_fortran_library(ACCESS3_cdeps_dice mod/dice STATIC)
-add_library(Access3Share::cdeps_dice ALIAS ACCESS3_cdeps_dice)
+add_library(Access3::cdeps_dice ALIAS ACCESS3_cdeps_dice)
 target_include_directories(ACCESS3_cdeps_dice PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dice
   PUBLIC esmf
-  PRIVATE Access3Share::cdeps_common Access3Share::share
+  PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_dice PRIVATE
   CDEPS/dice/dice_datamode_ssmi_mod.F90
@@ -74,11 +74,11 @@ target_sources(ACCESS3_cdeps_dice PRIVATE
 
 ## DWAV
 add_fortran_library(ACCESS3_cdeps_dwav mod/dwav STATIC)
-add_library(Access3Share::cdeps_dwav ALIAS ACCESS3_cdeps_dwav)
+add_library(Access3::cdeps_dwav ALIAS ACCESS3_cdeps_dwav)
 target_include_directories(ACCESS3_cdeps_dwav PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dwav
   PUBLIC esmf
-  PRIVATE Access3Share::cdeps_common Access3Share::share
+  PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_dwav PRIVATE
   CDEPS/dwav/wav_comp_nuopc.F90
@@ -86,11 +86,11 @@ target_sources(ACCESS3_cdeps_dwav PRIVATE
 
 ## DROF
 add_fortran_library(ACCESS3_cdeps_drof mod/drof STATIC)
-add_library(Access3Share::cdeps_drof ALIAS ACCESS3_cdeps_drof)
+add_library(Access3::cdeps_drof ALIAS ACCESS3_cdeps_drof)
 target_include_directories(ACCESS3_cdeps_drof PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_drof
   PUBLIC esmf
-  PRIVATE Access3Share::cdeps_common Access3Share::share
+  PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_drof PRIVATE
   CDEPS/drof/rof_comp_nuopc.F90
@@ -145,15 +145,10 @@ if(ACCESS3_LIB_INSTALL)
       DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
       COMPONENT Access3Share_Development
     )
-    # install(EXPORT ACCESS3_cdeps_d${LIB}
-    #   FILE ACCESS3Sharecdeps_d${LIB}.cmake
-    #   NAMESPACE Access3Share::
-    #   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-    # )
   endforeach()
   install(EXPORT Access3Sharecdeps_Targets
     FILE Access3SharecdepsTargets.cmake
-    NAMESPACE Access3Share::
+    NAMESPACE Access3::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()

@@ -2,7 +2,7 @@
 
 ## share library
 add_fortran_library(share mod/share STATIC)
-add_library(Access3Share::share ALIAS share)
+add_library(Access3::share ALIAS share)
 target_include_directories(share PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/CESM_share/include>")
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
   target_compile_definitions(share PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
@@ -11,7 +11,7 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
 endif()
 target_link_libraries(share
   PUBLIC esmf PIO::PIO_Fortran
-  PRIVATE Access3Share::timing
+  PRIVATE Access3::timing
 )
 target_sources(share PRIVATE
   # The following files are generated with a script acting on templates
@@ -54,7 +54,7 @@ endif()
 
 ## GPTL timing library
 add_fortran_library(ACCESS3_timing mod/timing STATIC)
-add_library(Access3Share::timing ALIAS ACCESS3_timing)
+add_library(Access3::timing ALIAS ACCESS3_timing)
 target_compile_definitions(ACCESS3_timing PRIVATE NUOPC_INTERFACE HAVE_MPI)
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
   target_compile_definitions(ACCESS3_timing PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
@@ -98,7 +98,7 @@ if(ACCESS3_LIB_INSTALL)
   )
   install(EXPORT Access3Shareshare_Targets
     FILE Access3ShareshareTargets.cmake
-    NAMESPACE Access3Share::
+    NAMESPACE Access3::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 
@@ -122,7 +122,7 @@ if(ACCESS3_LIB_INSTALL)
   )
   install(EXPORT Access3Sharetiming_Targets
     FILE Access3SharetimingTargets.cmake
-    NAMESPACE Access3Share::
+    NAMESPACE Access3::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
 endif()
