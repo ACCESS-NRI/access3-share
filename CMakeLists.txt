@@ -1,6 +1,7 @@
-# This CMakeLists file has two options:
-# ACCESS3_LIB_INSTALL, to build libraries for the shared components (CMEPS/CDEPS/Share)
-# ACCESS3_BIN_INSTALL, to build ACCESS-OM3 using CMEPS code and linked to model components (built elsewhere). 
+# This CMakeLists file has option:
+# ACCESS3_LIB_INSTALL:
+# If ON, then build libraries for the shared components (CMEPS/CDEPS/Share)
+# If OFF, then build ACCESS-OM3 using CMEPS code and linked to model components (built elsewhere). 
 # This can be extended to included CM3 by linking against the UM libraries built with nuopc/cmeps driver.
 
 cmake_minimum_required(VERSION 3.18)
@@ -20,21 +21,12 @@ project(Access3Share VERSION "0.3.1"
 #]==============================================================================]
 
 # Build options
-option(ACCESS3_BIN_INSTALL       "Install ACCESS3 executables" ON)
 option(ACCESS3_LIB_INSTALL       "Install ACCESS3 libraries"  OFF)
 # option(OPENMP                "Enable OpenMP threading" OFF)
-# option(ACCESS3_MOM_SYMMETRIC "Use symmetric memory" OFF) #move to MOM6
-
-if(ACCESS3_LIB_INSTALL)
-  set(ACCESS3_BIN_INSTALL OFF)
-endif()
 
 message(STATUS "Build options")
-message(STATUS "  - ACCESS3_BIN_INSTALL   ${ACCESS3_BIN_INSTALL}")
 message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
 # message(STATUS "  - OPENMP        ${ACCESS3_OPENMP}")
-# message(STATUS "  - ACCESS3_MOM_SYMMETRIC ${ACCESS3_MOM_SYMMETRIC}") #move to MOM6
-
 
 
 #[==============================================================================[
@@ -104,12 +96,10 @@ find_package(ESMF 8.3.0 MODULE REQUIRED)
 
 ## Use seperate files for building libraries vs final exectuable
 
-# OM3 executables
-if(ACCESS3_BIN_INSTALL)
-  include(Access3BinInstall)
-endif()
-
-# Libraries
 if(ACCESS3_LIB_INSTALL)
+  # Libraries
   include(Access3LibInstall)
+else()
+  # OM3 executables
+  include(Access3BinInstall)
 endif()
