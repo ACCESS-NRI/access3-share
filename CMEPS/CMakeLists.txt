@@ -67,52 +67,50 @@ target_sources(ACCESS3_nuopc_cap_share PRIVATE
 
 ### Install and Export
 
-if(ACCESS3_LIB_INSTALL)
-  ## CMEPS library
-  set_target_properties(ACCESS3_cmeps PROPERTIES
-    OUTPUT_NAME access-cmeps
-    EXPORT_NAME cmeps
-  )
-  install(TARGETS ACCESS3_cmeps
-    EXPORT Access3Sharecmeps_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
-  )
-  # Fortran module files are a special case, as currently there is no standard
-  # way of handling them in CMake
-  target_include_directories(ACCESS3_cmeps PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cmeps>")
-  get_target_property(cmeps_moddir ACCESS3_cmeps Fortran_MODULE_DIRECTORY)
-  install(FILES ${cmeps_moddir}/med.mod ${cmeps_moddir}/med_time_mod.mod ${cmeps_moddir}/med_internalstate_mod.mod
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
-    COMPONENT Access3Share_Development
-  )
-  install(EXPORT Access3Sharecmeps_Targets
-    FILE Access3SharecmepsTargets.cmake
-    NAMESPACE Access3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-  )
+## CMEPS library
+set_target_properties(ACCESS3_cmeps PROPERTIES
+  OUTPUT_NAME access-cmeps
+  EXPORT_NAME cmeps
+)
+install(TARGETS ACCESS3_cmeps
+  EXPORT Access3Sharecmeps_Targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
+)
+# Fortran module files are a special case, as currently there is no standard
+# way of handling them in CMake
+target_include_directories(ACCESS3_cmeps PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cmeps>")
+get_target_property(cmeps_moddir ACCESS3_cmeps Fortran_MODULE_DIRECTORY)
+install(FILES ${cmeps_moddir}/med.mod ${cmeps_moddir}/med_time_mod.mod ${cmeps_moddir}/med_internalstate_mod.mod
+  DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
+  COMPONENT Access3Share_Development
+)
+install(EXPORT Access3Sharecmeps_Targets
+  FILE Access3SharecmepsTargets.cmake
+  NAMESPACE Access3::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+)
 
-  ## NUOPC cap share
-  set_target_properties(ACCESS3_nuopc_cap_share PROPERTIES
-    OUTPUT_NAME access-nuopc_cap_share
-    EXPORT_NAME nuopc_cap_share
-  )
-  install(TARGETS ACCESS3_nuopc_cap_share
-    EXPORT Access3Sharenuopc_cap_share_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
-  )
-  # Fortran module files are a special case, as currently there is no standard
-  # way of handling them in CMake
-  target_include_directories(ACCESS3_nuopc_cap_share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-nuopc_cap_share>")
-  get_target_property(nuopc_cap_share_moddir ACCESS3_nuopc_cap_share Fortran_MODULE_DIRECTORY)
-  install(DIRECTORY ${nuopc_cap_share_moddir}/
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-nuopc_cap_share
-    COMPONENT Access3Share_Development
-  )
-  install(EXPORT Access3Sharenuopc_cap_share_Targets
-    FILE Access3Sharenuopc_cap_shareTargets.cmake
-    NAMESPACE Access3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-  )
-endif()
+## NUOPC cap share
+set_target_properties(ACCESS3_nuopc_cap_share PROPERTIES
+  OUTPUT_NAME access-nuopc_cap_share
+  EXPORT_NAME nuopc_cap_share
+)
+install(TARGETS ACCESS3_nuopc_cap_share
+  EXPORT Access3Sharenuopc_cap_share_Targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
+)
+# Fortran module files are a special case, as currently there is no standard
+# way of handling them in CMake
+target_include_directories(ACCESS3_nuopc_cap_share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-nuopc_cap_share>")
+get_target_property(nuopc_cap_share_moddir ACCESS3_nuopc_cap_share Fortran_MODULE_DIRECTORY)
+install(DIRECTORY ${nuopc_cap_share_moddir}/
+  DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-nuopc_cap_share
+  COMPONENT Access3Share_Development
+)
+install(EXPORT Access3Sharenuopc_cap_share_Targets
+  FILE Access3Sharenuopc_cap_shareTargets.cmake
+  NAMESPACE Access3::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+)

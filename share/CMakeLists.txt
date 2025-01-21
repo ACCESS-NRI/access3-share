@@ -77,52 +77,50 @@ target_sources(ACCESS3_timing PRIVATE
 
 ### Install and Export
 
-if(ACCESS3_LIB_INSTALL)
-  ## share library
-  set_target_properties(share PROPERTIES
-    OUTPUT_NAME access-share
-    EXPORT_NAME share
-  )
-  install(TARGETS share
-    EXPORT Access3Shareshare_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
-  )
-  # Fortran module files are a special case, as currently there is no standard
-  # way of handling them in CMake
-  target_include_directories(share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-share>")
-  get_target_property(share_moddir share Fortran_MODULE_DIRECTORY)
-  install(DIRECTORY ${share_moddir}/
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-share
-    COMPONENT Access3Share_Development
-  )
-  install(EXPORT Access3Shareshare_Targets
-    FILE Access3ShareshareTargets.cmake
-    NAMESPACE Access3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-  )
+## share library
+set_target_properties(share PROPERTIES
+  OUTPUT_NAME access-share
+  EXPORT_NAME share
+)
+install(TARGETS share
+  EXPORT Access3Shareshare_Targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
+)
+# Fortran module files are a special case, as currently there is no standard
+# way of handling them in CMake
+target_include_directories(share PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-share>")
+get_target_property(share_moddir share Fortran_MODULE_DIRECTORY)
+install(DIRECTORY ${share_moddir}/
+  DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-share
+  COMPONENT Access3Share_Development
+)
+install(EXPORT Access3Shareshare_Targets
+  FILE Access3ShareshareTargets.cmake
+  NAMESPACE Access3::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+)
 
-  ## timing library
-  set_target_properties(ACCESS3_timing PROPERTIES
-    OUTPUT_NAME access-timing
-    EXPORT_NAME timing
-  )
-  install(TARGETS ACCESS3_timing
-    EXPORT Access3Sharetiming_Targets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
-  )
-  # Fortran module files are a special case, as currently there is no standard
-  # way of handling them in CMake
-  target_include_directories(ACCESS3_timing PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-timing>")
-  get_target_property(timing_moddir ACCESS3_timing Fortran_MODULE_DIRECTORY)
-  install(DIRECTORY ${timing_moddir}/
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-timing
-    COMPONENT Access3Share_Development
-  )
-  install(EXPORT Access3Sharetiming_Targets
-    FILE Access3SharetimingTargets.cmake
-    NAMESPACE Access3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
-  )
-endif()
+## timing library
+set_target_properties(ACCESS3_timing PROPERTIES
+  OUTPUT_NAME access-timing
+  EXPORT_NAME timing
+)
+install(TARGETS ACCESS3_timing
+  EXPORT Access3Sharetiming_Targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
+)
+# Fortran module files are a special case, as currently there is no standard
+# way of handling them in CMake
+target_include_directories(ACCESS3_timing PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-timing>")
+get_target_property(timing_moddir ACCESS3_timing Fortran_MODULE_DIRECTORY)
+install(DIRECTORY ${timing_moddir}/
+  DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-timing
+  COMPONENT Access3Share_Development
+)
+install(EXPORT Access3Sharetiming_Targets
+  FILE Access3SharetimingTargets.cmake
+  NAMESPACE Access3::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+)

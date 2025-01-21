@@ -98,57 +98,54 @@ target_sources(ACCESS3_cdeps_drof PRIVATE
 
 ### Install and Export
 
-## Library
-if(ACCESS3_LIB_INSTALL)
-  # cdeps_common
-  set_target_properties(ACCESS3_cdeps_common PROPERTIES
-    OUTPUT_NAME access-cdeps-common
-    EXPORT_NAME cdeps-common
+# cdeps_common
+set_target_properties(ACCESS3_cdeps_common PROPERTIES
+  OUTPUT_NAME access-cdeps-common
+  EXPORT_NAME cdeps-common
+)
+install(TARGETS ACCESS3_cdeps_common
+  EXPORT Access3Sharecdeps_Targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
+)
+# Fortran module files are a special case, as currently there is no standard
+  # way of handling them in CMake
+  target_include_directories(ACCESS3_cdeps_common PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common>")
+  get_target_property(common_moddir ACCESS3_cdeps_common Fortran_MODULE_DIRECTORY)
+  install(FILES 
+    ${common_moddir}/dshr_methods_mod.mod
+    ${common_moddir}/dshr_strdata_mod.mod
+    ${common_moddir}/dshr_stream_mod.mod
+    ${common_moddir}/dshr_tinterp_mod.mod
+  
+    ${common_moddir}/dshr_dfield_mod.mod
+    ${common_moddir}/dshr_fldlist_mod.mod
+    ${common_moddir}/dshr_mod.mod
+    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common
+    COMPONENT Access3Share_Development
   )
-  install(TARGETS ACCESS3_cdeps_common
+# components
+foreach(LIB atm ocn ice wav rof)
+  set_target_properties(ACCESS3_cdeps_d${LIB} PROPERTIES
+    OUTPUT_NAME access-cdeps-d${LIB}
+    EXPORT_NAME cdeps-d${LIB}
+  )
+  install(TARGETS ACCESS3_cdeps_d${LIB}
     EXPORT Access3Sharecdeps_Targets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
   )
   # Fortran module files are a special case, as currently there is no standard
-    # way of handling them in CMake
-    target_include_directories(ACCESS3_cdeps_common PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common>")
-    get_target_property(common_moddir ACCESS3_cdeps_common Fortran_MODULE_DIRECTORY)
-    install(FILES 
-      ${common_moddir}/dshr_methods_mod.mod
-      ${common_moddir}/dshr_strdata_mod.mod
-      ${common_moddir}/dshr_stream_mod.mod
-      ${common_moddir}/dshr_tinterp_mod.mod
-    
-      ${common_moddir}/dshr_dfield_mod.mod
-      ${common_moddir}/dshr_fldlist_mod.mod
-      ${common_moddir}/dshr_mod.mod
-      DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common
-      COMPONENT Access3Share_Development
-    )
-  # components
-  foreach(LIB atm ocn ice wav rof)
-    set_target_properties(ACCESS3_cdeps_d${LIB} PROPERTIES
-      OUTPUT_NAME access-cdeps-d${LIB}
-      EXPORT_NAME cdeps-d${LIB}
-    )
-    install(TARGETS ACCESS3_cdeps_d${LIB}
-      EXPORT Access3Sharecdeps_Targets
-      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_RunTime NAMELINK_COMPONENT Access3Share_Development
-      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Access3Share_Development
-    )
-    # Fortran module files are a special case, as currently there is no standard
-    # way of handling them in CMake
-    target_include_directories(ACCESS3_cdeps_d${LIB} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}>")
-    get_target_property(d${LIB}_moddir ACCESS3_cdeps_d${LIB} Fortran_MODULE_DIRECTORY)
-    install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
-      DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
-      COMPONENT Access3Share_Development
-    )
-  endforeach()
-  install(EXPORT Access3Sharecdeps_Targets
-    FILE Access3SharecdepsTargets.cmake
-    NAMESPACE Access3::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+  # way of handling them in CMake
+  target_include_directories(ACCESS3_cdeps_d${LIB} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}>")
+  get_target_property(d${LIB}_moddir ACCESS3_cdeps_d${LIB} Fortran_MODULE_DIRECTORY)
+  install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
+    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
+    COMPONENT Access3Share_Development
   )
-endif()
+endforeach()
+install(EXPORT Access3Sharecdeps_Targets
+  FILE Access3SharecdepsTargets.cmake
+  NAMESPACE Access3::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
+)
