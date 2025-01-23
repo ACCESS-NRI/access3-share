@@ -46,8 +46,7 @@ endif()
 # External packages
 find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) 
 if(ENABLE_CICE6)
-#TO-DO remove hardcoded IO_PIO ?
-  find_package(Cicelib REQUIRED COMPONENTS AccessCiceCmeps_Development IO_PIO)
+  find_package(Cicelib REQUIRED COMPONENTS AccessCICECmeps_Development)
 endif()
 if(ENABLE_MOM6)
   find_package(mom6lib REQUIRED AccessMOM6Cmeps_Development)
