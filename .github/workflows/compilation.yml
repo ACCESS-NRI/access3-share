@@ -26,7 +26,7 @@ jobs:
         env:
           FC: mpifort
           CC: mpicc
-        run: . /etc/profile && cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_VERBOSE_MAKEFILE=ON
+        run: . /etc/profile && cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_VERBOSE_MAKEFILE=ON -DACCESS3_LIB_INSTALL=TRUE
 
       - name: Build
         # Build your program with the given configuration
