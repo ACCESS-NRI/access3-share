@@ -5,6 +5,14 @@
 # Configurations to build
 # TO-DO add UM
 list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3)
+set(BuildConfigurations) 
+
+# Check validity of requested components
+foreach(_conf IN LISTS BuildConfigurations)
+  if (NOT _conf IN_LIST KnownConfigurations)
+      message (FATAL_ERROR "Unsupported configuration: ${_conf}") 
+  endif()
+endforeach()
 
 option(ENABLE_MOM6           "Build MOM6 configuration" OFF)
 option(ENABLE_CICE6          "Build CICE6 configuration" OFF)
@@ -14,27 +22,21 @@ option(ENABLE_MOM6-CICE6     "Build MOM6-CICE6 configuration" OFF)
 option(ENABLE_CICE6-WW3      "Build CICE6-WW3 configuration" OFF)
 option(ENABLE_MOM6-CICE6-WW3 "Build MOM6-CICE6-WW3 configuration" OFF)
 
-message(STATUS "Configurations")
-message(STATUS "  - MOM6              ${ENABLE_MOM6}")
-message(STATUS "  - CICE6             ${ENABLE_CICE6}")
-message(STATUS "  - WW3               ${ENABLE_WW3}")
-message(STATUS "  - MOM6-WW3          ${ENABLE_MOM6-WW3}")
-message(STATUS "  - MOM6-CICE6        ${ENABLE_MOM6-CICE6}")
-message(STATUS "  - CICE6-WW3         ${ENABLE_CICE6-WW3}")
-message(STATUS "  - MOM6-CICE6-WW3    ${ENABLE_MOM6-CICE6-WW3}")
+message(STATUS "BuildConfigurations")
+message(STATUS "${BuildConfigurations}")
 
 # Do not build try to include that are not going to be used
-if(ENABLE_MOM6 OR ENABLE_MOM6-CICE6 OR ENABLE_MOM6-WW3 OR ENABLE_MOM6-CICE6-WW3)
+if(MOM6 IN_LIST BuildConfigurations OR MOM6-CICE6 IN_LIST BuildConfigurations OR MOM6-WW3 IN_LIST BuildConfigurations OR MOM6-CICE6-WW3 IN_LIST BuildConfigurations)
   set(ENABLE_MOM6 ON)
 else()
   set(ENABLE_MOM6 OFF)
 endif()
-if(ENABLE_CICE6 OR ENABLE_MOM6-CICE6 OR ENABLE_CICE6-WW3 OR ENABLE_MOM6-CICE6-WW3)
+if(CICE6 IN_LIST BuildConfigurations OR MOM6-CICE6 IN_LIST BuildConfigurations OR CICE6-WW3 IN_LIST BuildConfigurations OR MOM6-CICE6-WW3 IN_LIST BuildConfigurations)
   set(ENABLE_CICE6 ON)
 else()
   set(ENABLE_CICE6 OFF)
 endif()
-if(ENABLE_WW3 OR ENABLE_MOM6-WW3 OR ENABLE_CICE6-WW3 OR ENABLE_MOM6-CICE6-WW3)
+if(WW3 IN_LIST BuildConfigurations OR MOM6-WW3 IN_LIST BuildConfigurations OR CICE6-WW3 IN_LIST BuildConfigurations OR MOM6-CICE6-WW3 IN_LIST BuildConfigurations)
   set(ENABLE_WW3 ON)
 else()
   set(ENABLE_WW3 OFF)
@@ -58,10 +60,7 @@ endif()
 # Main Definitions
 
 # Add executable for each enabled configuration
-foreach(CONF IN LISTS KnownConfigurations)
-  if(NOT ENABLE_${CONF})
-      continue()
-  endif()
+foreach(CONF IN LISTS BuildConfigurations)
 
   set(ComponentsTargets "")
   if(OM3_${CONF} MATCHES MOM6)
@@ -110,10 +109,7 @@ endforeach()
 
 # Install
 
-foreach(CONF IN LISTS KnownConfigurations)
-  if(NOT ENABLE_${CONF})
-    continue()
-  endif()
+foreach(CONF IN LISTS BuildConfigurations)
 
   install(TARGETS OM3_${CONF}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

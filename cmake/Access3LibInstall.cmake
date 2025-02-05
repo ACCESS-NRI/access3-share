@@ -26,7 +26,7 @@ configure_package_config_file(
     ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
-install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_SOURCE_DIR}/cmake/FindNetCDF.cmake ${CMAKE_SOURCE_DIR}/cmake/FindPIO.cmake ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
 DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
 COMPONENT Access3Share
 )
