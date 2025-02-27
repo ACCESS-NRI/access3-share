@@ -11,9 +11,9 @@ cmake_minimum_required(VERSION 3.18)
 #                         Basic project definition                              #
 #]==============================================================================]
 
-project(Access3Share VERSION "0.3.1"
+project(Access3Share 
                   HOMEPAGE_URL https://github.com/access-nri/access3-share
-                  DESCRIPTION "Global coupled ocean - sea ice - wave model"
+                  DESCRIPTION "Dependencies for global climate models"
                   LANGUAGES C Fortran)
 
 #[==============================================================================[
@@ -22,11 +22,11 @@ project(Access3Share VERSION "0.3.1"
 
 # Build options
 option(ACCESS3_LIB_INSTALL       "Install ACCESS3 libraries"  OFF)
-# option(OPENMP                "Enable OpenMP threading" OFF)
+option(OPENMP                    "Enable OpenMP threading" OFF)
 
 message(STATUS "Build options")
 message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
-# message(STATUS "  - OPENMP        ${ACCESS3_OPENMP}")
+message(STATUS "  - OPENMP        ${OPENMP}")
 
 
 #[==============================================================================[
@@ -84,9 +84,9 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 
 # Find dependencies
 find_package(MPI REQUIRED)
-# if(OPENMP)
-#   find_package(OpenMP REQUIRED)
-# endif()
+if(OPENMP)
+  find_package(OpenMP REQUIRED)
+endif()
 
 find_package(ESMF 8.3.0 MODULE REQUIRED)
 
@@ -97,7 +97,6 @@ find_package(ESMF 8.3.0 MODULE REQUIRED)
 ## Use seperate files for building libraries vs final exectuable
 
 if(ACCESS3_LIB_INSTALL)
-  # Libraries
   include(Access3LibInstall)
 else()
   # OM3 executables
