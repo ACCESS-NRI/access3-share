@@ -78,7 +78,7 @@ install(TARGETS ACCESS3_cmeps
 # way of handling them in CMake
 target_include_directories(ACCESS3_cmeps PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cmeps>")
 get_target_property(cmeps_moddir ACCESS3_cmeps Fortran_MODULE_DIRECTORY)
-install(FILES ${cmeps_moddir}/med.mod ${cmeps_moddir}/med_time_mod.mod ${cmeps_moddir}/med_internalstate_mod.mod
+install(FILES ${cmeps_moddir}/med.mod ${cmeps_moddir}/med_internalstate_mod.mod
   DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
   COMPONENT Access3Share_Development
 )
