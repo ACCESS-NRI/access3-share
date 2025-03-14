@@ -22,11 +22,9 @@ project(Access3Share
 
 # Build options
 option(ACCESS3_LIB_INSTALL       "Install ACCESS3 libraries"  OFF)
-option(OPENMP                    "Enable OpenMP threading" OFF)
 
 message(STATUS "Build options")
 message(STATUS "  - ACCESS3_LIB_INSTALL   ${ACCESS3_LIB_INSTALL}")
-message(STATUS "  - OPENMP        ${OPENMP}")
 
 
 #[==============================================================================[
@@ -84,9 +82,6 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 
 # Find dependencies
 find_package(MPI REQUIRED)
-if(OPENMP)
-  find_package(OpenMP REQUIRED)
-endif()
 
 find_package(ESMF 8.3.0 MODULE REQUIRED)
 
