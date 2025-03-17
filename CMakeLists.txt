@@ -1,3 +1,6 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
+
 # This CMakeLists file has option:
 # ACCESS3_LIB_INSTALL:
 # If ON, then build libraries for the shared components (CMEPS/CDEPS/Share)

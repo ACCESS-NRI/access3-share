@@ -1,3 +1,6 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
+
 # Apply a patch to a source file and add the resulting file to the sources of a
 # given target.
 function(add_patched_source TARGET FILE)

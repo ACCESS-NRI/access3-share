@@ -1,3 +1,6 @@
+! Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+! SPDX-License-Identifier: Apache-2.0
+
 module datm_datamode_jra55do_mod
 
   use ESMF             , only : ESMF_State, ESMF_StateGet, ESMF_SUCCESS, ESMF_LogWrite, ESMF_LOGMSG_INFO

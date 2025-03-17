@@ -1,3 +1,5 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
 
 ## share library
 add_fortran_library(share mod/share STATIC)
