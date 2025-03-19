@@ -1,10 +1,11 @@
 # Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 
-# This CMakeLists file has option:
+# This CMakeLists file has an option to control what to build:
 # ACCESS3_LIB_INSTALL:
 # If ON, then build libraries for the shared components (CMEPS/CDEPS/Share)
-# If OFF, then build ACCESS-OM3 using CMEPS code and linked to model components (built elsewhere). 
+# If OFF, then build ACCESS-OM3 using CMEPS code and linked to model components (built elsewhere).
+# Build components are set through the KnownConfigurations CMAKE variable 
 # This can be extended to included CM3 by linking against the UM libraries built with nuopc/cmeps driver.
 
 cmake_minimum_required(VERSION 3.18)
@@ -15,9 +16,9 @@ cmake_minimum_required(VERSION 3.18)
 #]==============================================================================]
 
 project(Access3Share 
-                  HOMEPAGE_URL https://github.com/access-nri/access3-share
-                  DESCRIPTION "Dependencies for global climate models"
-                  LANGUAGES C Fortran)
+        HOMEPAGE_URL https://github.com/access-nri/access3-share
+        DESCRIPTION "Dependencies for global climate models"
+        LANGUAGES C Fortran)
 
 #[==============================================================================[
 #                                   Options                                     #
@@ -96,6 +97,5 @@ find_package(ESMF 8.3.0 MODULE REQUIRED)
 if(ACCESS3_LIB_INSTALL)
   include(Access3LibInstall)
 else()
-  # OM3 executables
   include(Access3BinInstall)
 endif()
