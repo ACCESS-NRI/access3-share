@@ -20,6 +20,9 @@ add_subdirectory(CDEPS)
 # Mediator component (CMEPS)
 add_subdirectory(CMEPS)
 
+# make some common deps available
+target_link_libraries(share PUBLIC ESMF::ESMF PIO::PIO_Fortran PIO::PIO_C NetCDF::NetCDF_Fortran NetCDF::NetCDF_C)
+
 # Install/Export
 # Note that the installation of some components is done in the corresponding subdirectory
 
@@ -28,7 +31,7 @@ configure_package_config_file(
     ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
   )
-install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_SOURCE_DIR}/cmake/FindNetCDF.cmake ${CMAKE_SOURCE_DIR}/cmake/FindPIO.cmake ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
+install(FILES ${CMAKE_SOURCE_DIR}/cmake/FindFoX.cmake ${CMAKE_SOURCE_DIR}/cmake/FindNetCDF.cmake ${CMAKE_SOURCE_DIR}/cmake/FindPIO.cmake ${CMAKE_SOURCE_DIR}/cmake/FindESMF.cmake ${CMAKE_CURRENT_BINARY_DIR}/Access3ShareConfig.cmake
 DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
 COMPONENT Access3Share
 )

@@ -82,7 +82,7 @@ foreach(CONF IN LISTS BuildConfigurations)
       CMEPS/CMEPS/cesm/driver/esm_time_mod.F90
   )
   target_link_libraries(OM3_cesm_driver_${CONF}
-      PUBLIC esmf
+      PUBLIC ESMF::ESMF
       PRIVATE ${ComponentsTargets} Access3::cdeps-drof Access3::cdeps-datm Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
   )
   target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
@@ -95,7 +95,7 @@ foreach(CONF IN LISTS BuildConfigurations)
   )
 
   add_executable(OM3_${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
-  target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} Access3::share esmf)
+  target_link_libraries(OM3_${CONF} PRIVATE OM3_cesm_driver_${CONF} Access3::share ESMF::ESMF)
 
   set_target_properties(OM3_${CONF} PROPERTIES
       LINKER_LANGUAGE Fortran

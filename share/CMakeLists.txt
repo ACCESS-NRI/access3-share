@@ -11,8 +11,8 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
 target_link_libraries(share
-  PUBLIC esmf PIO::PIO_Fortran
-  PRIVATE Access3::timing
+  PUBLIC ESMF::ESMF 
+  PRIVATE Access3::timing PIO::PIO_Fortran
 )
 target_sources(share PRIVATE
   # The following files are generated with a script acting on templates
@@ -64,7 +64,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(ACCESS3_timing PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
-target_link_libraries(ACCESS3_timing PRIVATE esmf)
+target_link_libraries(ACCESS3_timing PRIVATE ESMF::ESMF)
 target_sources(ACCESS3_timing PRIVATE
   timing/f_wrappers.c
   timing/gptl.c

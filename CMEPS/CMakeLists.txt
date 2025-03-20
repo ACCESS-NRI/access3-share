@@ -7,7 +7,7 @@
 add_fortran_library(ACCESS3_cmeps mod/cmeps STATIC)
 add_library(Access3::cmeps ALIAS ACCESS3_cmeps)
 target_link_libraries(ACCESS3_cmeps
-  PUBLIC esmf
+  PUBLIC ESMF::ESMF
   PRIVATE Access3::nuopc_cap_share Access3::share Access3::timing
 )
 if(OpenMP_Fortran_FOUND)
@@ -55,7 +55,7 @@ target_sources(ACCESS3_cmeps PRIVATE
 add_fortran_library(ACCESS3_nuopc_cap_share mod/nuopc_cap_share STATIC)
 add_library(Access3::nuopc_cap_share ALIAS ACCESS3_nuopc_cap_share)
 target_link_libraries(ACCESS3_nuopc_cap_share
-  PUBLIC esmf
+  PUBLIC ESMF::ESMF
   PRIVATE Access3::share
 )
 target_sources(ACCESS3_nuopc_cap_share PRIVATE
