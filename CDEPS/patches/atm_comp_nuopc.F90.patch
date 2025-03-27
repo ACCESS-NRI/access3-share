@@ -1,3 +1,6 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
+
 diff --git a/datm/atm_comp_nuopc.F90 b/datm/atm_comp_nuopc.F90
 index b74e0d3..bb31c22 100644
 --- a/datm/atm_comp_nuopc.F90

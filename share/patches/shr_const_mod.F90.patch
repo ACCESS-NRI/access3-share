@@ -1,3 +1,6 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
+
 diff --git a/src/shr_const_mod.F90 b/src/shr_const_mod.F90
 index 8437190..9696c81 100644
 --- shr_const_mod.F90.old

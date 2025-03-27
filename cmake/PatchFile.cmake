@@ -1,3 +1,6 @@
+# Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# SPDX-License-Identifier: Apache-2.0
+
 # use GNU Patch from any platform
 
 if(WIN32)
