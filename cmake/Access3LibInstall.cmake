@@ -7,7 +7,8 @@ include(CMakePackageConfigHelpers)
 
 find_package(FoX 4.1.2 REQUIRED)
 find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
-find_package(NetCDF 4.7.3 REQUIRED Fortran)
+find_package(NetCDF 4.7.3 REQUIRED C Fortran)
+# Code has not been tested with older PIO/NetCDF versions , but probably still works fine
 
 # Main definitions
 
