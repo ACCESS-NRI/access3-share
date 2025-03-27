@@ -61,7 +61,7 @@ if (cdeps IN_LIST _required_components)
 endif()
 
 find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
-find_package(NetCDF 4.7.3 REQUIRED Fortran)
+find_package(NetCDF 4.7.3 REQUIRED C Fortran)
 find_package(ESMF 8.3.0 MODULE REQUIRED)
 
 list(REMOVE_ITEM CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
