@@ -7,12 +7,13 @@
 
 # Configurations to build
 # TO-DO add UM
-list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3)
+list(APPEND KnownConfigurations MOM6 CICE6 WW3 UM13 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3 MOM6-CICE6-UM13)
 set(BuildConfigurations) 
 
 option(ENABLE_MOM6           "Build MOM6 configuration" OFF)
 option(ENABLE_CICE6          "Build CICE6 configuration" OFF)
 option(ENABLE_WW3            "Build WW3 configuration" OFF)
+option(ENABLE_UM13           "Build UM13 configuration" OFF)
 
 # Check validity of requested components
 foreach(_conf IN LISTS BuildConfigurations)
@@ -29,6 +30,9 @@ foreach(_conf IN LISTS BuildConfigurations)
   if (_conf MATCHES WW3)
     set(ENABLE_WW3   ON)
   endif()
+  if (_conf MATCHES UM13)
+    set(ENABLE_UM13  ON)
+  endif()
 endforeach()
 
 message(STATUS "BuildConfigurations")
@@ -36,13 +40,14 @@ message(STATUS "${BuildConfigurations}")
 message(STATUS "  - MOM6              ${ENABLE_MOM6}")
 message(STATUS "  - CICE6             ${ENABLE_CICE6}")
 message(STATUS "  - WW3               ${ENABLE_WW3}")
+message(STATUS "  - UM13              ${ENABLE_WW3}")
 
-if(NOT (ENABLE_MOM6 OR ENABLE_CICE6 OR ENABLE_WW3))
+if(NOT (ENABLE_MOM6 OR ENABLE_CICE6 OR ENABLE_WW3 OR ENABLE_UM13))
   message (FATAL_ERROR "No model components have been requested, atleast one ENABLE_ configuration must be set")
 endif()
 
 # External packages
-find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing) 
+find_package(Access3Share REQUIRED cdeps cmeps nuopc_cap_share share timing)
 if(ENABLE_CICE6)
   find_package(Cicelib REQUIRED COMPONENTS AccessCICECmeps_Development)
 endif()
@@ -51,6 +56,9 @@ if(ENABLE_MOM6)
 endif()
 if(ENABLE_WW3)
   find_package(Ww3lib REQUIRED AccessWW3Cmeps_Development)
+endif()
+if(ENABLE_UM13)
+  # UM13 CMake build not yet implemented
 endif()
 
 # Main Definitions
@@ -74,6 +82,11 @@ foreach(CONF IN LISTS BuildConfigurations)
   else()
       list(APPEND ComponentsTargets Access3::cdeps-dwav)
   endif()
+  if(CONF MATCHES UM13)
+    # UM13 CMake build not yet implemented
+  else()
+    list(APPEND ComponentsTargets Access3::cdeps-drof Access3::cdeps-datm)
+  endif()
 
   # We use the CESM driver from CMEPS
   add_fortran_library(OM3_cesm_driver_${CONF} mod/OM3_cesm_driver_${CONF} STATIC
@@ -83,7 +96,7 @@ foreach(CONF IN LISTS BuildConfigurations)
   )
   target_link_libraries(OM3_cesm_driver_${CONF}
       PUBLIC ESMF::ESMF
-      PRIVATE ${ComponentsTargets} Access3::cdeps-drof Access3::cdeps-datm Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
+      PRIVATE ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
   )
   target_compile_definitions(OM3_cesm_driver_${CONF} PRIVATE MED_PRESENT
                                                               ATM_PRESENT
