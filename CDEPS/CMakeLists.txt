@@ -35,7 +35,7 @@ target_sources(ACCESS3_cdeps_datm PRIVATE
   CDEPS/datm/datm_datamode_clmncep_mod.F90
   CDEPS/datm/datm_datamode_core2_mod.F90
   CDEPS/datm/datm_datamode_cplhist_mod.F90
-  CDEPS/datm/datm_datamode_era5_mod.F90
+  extra_sources/datm_datamode_era5_mod_UFS.F90
   CDEPS/datm/datm_datamode_gefs_mod.F90
   CDEPS/datm/datm_datamode_jra_mod.F90
   CDEPS/datm/datm_datamode_simple_mod.F90
