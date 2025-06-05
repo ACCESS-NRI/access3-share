@@ -106,7 +106,6 @@ contains
     call dshr_fldList_add(fldsExport, 'Sa_t2m'     )
     call dshr_fldList_add(fldsExport, 'Sa_tbot'    )
     call dshr_fldList_add(fldsExport, 'Sa_tskn'    )
-    call dshr_fldList_add(fldsExport, 'Sa_q2m'     )
     call dshr_fldList_add(fldsExport, 'Sa_shum'    )
     call dshr_fldList_add(fldsExport, 'Sa_pslv'    )
     call dshr_fldList_add(fldsExport, 'Sa_pbot'    )
@@ -190,8 +189,6 @@ contains
     call dshr_state_getfldptr(exportState, 'Sa_tbot'    , fldptr1=Sa_tbot    , allowNullReturn=.true., rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
     call dshr_state_getfldptr(exportState, 'Sa_tskn'    , fldptr1=Sa_tskn    , allowNullReturn=.true., rc=rc)
-    if (ChkErr(rc,__LINE__,u_FILE_u)) return
-    call dshr_state_getfldptr(exportState, 'Sa_q2m'     , fldptr1=Sa_q2m     , allowNullReturn=.true., rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
     call dshr_state_getfldptr(exportState, 'Sa_shum'    , fldptr1=Sa_shum    , allowNullReturn=.true., rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
@@ -369,7 +366,6 @@ contains
           if (td2max < 50.0_r8) strm_tdew(n) = strm_tdew(n) + tkFrz
           e = datm_eSat(strm_tdew(n), tbot)
           qsat = (0.622_r8 * e)/(pbot - 0.378_r8 * e)
-          if (associated(Sa_q2m)) Sa_q2m(n) = qsat
           if (associated(Sa_shum)) Sa_shum(n) = qsat
        end if
     end do
