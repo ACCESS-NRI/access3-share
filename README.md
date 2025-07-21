@@ -21,6 +21,10 @@ git submodule update --init --recursive
 ```
 to update all the submodules.
 
+# Versioning 
+
+Tags on this repository follow [CalVer](https://github.com/ACCESS-NRI/dev-docs/wiki/Versioning#models), and should be added to the [access3](https://github.com/ACCESS-NRI/spack-packages/blob/main/packages/access3/package.py#L31-L32) and [access3-share](https://github.com/ACCESS-NRI/spack-packages/blob/main/packages/access3-share/package.py#L21-L22) spack package.
+
 # Further information (including building and running the model)
 
 See the [ACCESS-OM3 configurations](https://github.com/accESS-NRI/access-om3-configs)
