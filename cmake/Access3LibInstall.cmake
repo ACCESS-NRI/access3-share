@@ -22,7 +22,7 @@ add_subdirectory(CDEPS)
 add_subdirectory(CMEPS)
 
 # make some common deps available
-target_link_libraries(share PUBLIC ESMF::ESMF PIO::PIO_Fortran PIO::PIO_C NetCDF::NetCDF_Fortran NetCDF::NetCDF_C MPI::MPI_Fortran)
+target_link_libraries(share PUBLIC ESMF::ESMF PIO::PIO_Fortran PIO::PIO_C NetCDF::NetCDF_Fortran NetCDF::NetCDF_C)
 
 # Install/Export
 # Note that the installation of some components is done in the corresponding subdirectory

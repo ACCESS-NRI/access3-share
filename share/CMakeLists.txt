@@ -11,7 +11,7 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
 target_link_libraries(share
-  PUBLIC ESMF::ESMF 
+  PUBLIC ESMF::ESMF MPI::MPI_Fortran
   PRIVATE Access3::timing PIO::PIO_Fortran
 )
 target_sources(share PRIVATE
