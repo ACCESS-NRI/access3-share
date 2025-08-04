@@ -54,7 +54,6 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -qno-opt-dynamic-align  -convert big_endian -assume byterecl -ftz -traceback -assume realloc_lhs -fp-model precise")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O2 -debug minimal")
   set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -g -check bounds -check pointers -fpe0 -check noarg_temp_created")
-  #-check uninit
 else()
   message(WARNING "Fortran compiler with ID ${CMAKE_Fortran_COMPILER_ID} will be used with CMake default options")
 endif()
