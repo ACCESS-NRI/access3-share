@@ -85,7 +85,7 @@ set(CMAKE_INSTALL_MODULEDIR ${CMAKE_INSTALL_INCLUDEDIR}
 #]==============================================================================]
 
 # Find dependencies
-find_package(MPI REQUIRED)
+find_package(MPI REQUIRED COMPONENTS Fortran)
 find_package(ESMF 8.3.0 MODULE REQUIRED)
 
 #[==============================================================================[
