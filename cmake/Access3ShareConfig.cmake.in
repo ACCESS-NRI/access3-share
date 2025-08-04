@@ -60,10 +60,10 @@ if (cdeps IN_LIST _required_components)
   find_dependency(FoX)
 endif()
 
-find_package(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
-find_package(NetCDF 4.7.3 REQUIRED C Fortran)
-find_package(ESMF 8.3.0 MODULE REQUIRED)
-find_package(MPI REQUIRED COMPONENTS Fortran)
+find_dependency(PIO 2.5.3 REQUIRED COMPONENTS C Fortran)
+find_dependency(NetCDF 4.7.3 REQUIRED C Fortran)
+find_dependency(ESMF 8.3.0 MODULE REQUIRED)
+find_dependency(MPI REQUIRED COMPONENTS Fortran)
 
 list(REMOVE_ITEM CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
 
