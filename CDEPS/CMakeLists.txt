@@ -31,7 +31,6 @@ target_link_libraries(ACCESS3_cdeps_datm
   PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_datm PRIVATE
-  CDEPS/datm/datm_datamode_cfsr_mod.F90
   CDEPS/datm/datm_datamode_clmncep_mod.F90
   CDEPS/datm/datm_datamode_core2_mod.F90
   CDEPS/datm/datm_datamode_cplhist_mod.F90
@@ -72,6 +71,7 @@ target_link_libraries(ACCESS3_cdeps_dice
   PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_dice PRIVATE
+  CDEPS/dice/dice_datamode_cplhist_mod.F90
   CDEPS/dice/dice_datamode_ssmi_mod.F90
   CDEPS/dice/dice_flux_atmice_mod.F90
   CDEPS/dice/ice_comp_nuopc.F90
