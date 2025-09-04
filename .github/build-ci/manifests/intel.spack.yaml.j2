@@ -2,6 +2,9 @@ spack:
   specs:
   - access3 @git.{{ ref }} configurations={{ all_configurations }}
   packages:
+    access3-share:
+      require:
+        @git.{{ ref }}=stable
     all:
       require:
       - '%{{ intel_compiler }} target={{ target }}'
