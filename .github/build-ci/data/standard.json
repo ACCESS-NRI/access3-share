@@ -1,0 +1,7 @@
+{
+    "gcc_compiler": "gcc@13.2.0",
+    "intel_compiler": "intel@2021.10.0",
+    "oneapi_compiler": "oneapi@2025.2.0",
+    "target": "x86_64",
+    "all_configurations": "MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3"
+}

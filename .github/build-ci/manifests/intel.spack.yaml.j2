@@ -1,0 +1,11 @@
+spack:
+  specs:
+  - access3 @git.{{ ref }} configurations={{ all_configurations }}
+  - access3 @git.{{ ref }} configurations={{ all_configurations }} +openmp
+  packages:
+    all:
+      require:
+      - '%{{ intel_compiler }} target={{ target }}'
+  concretizer:
+    unify: false
+  view: false
