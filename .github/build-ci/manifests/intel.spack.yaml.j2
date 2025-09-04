@@ -4,7 +4,7 @@ spack:
   packages:
     access3-share:
       require:
-        @git.{{ ref }}=stable
+        '@git.{{ ref }}=stable'
     all:
       require:
       - '%{{ intel_compiler }} target={{ target }}'
