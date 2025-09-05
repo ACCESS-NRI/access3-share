@@ -1,0 +1,13 @@
+spack:
+  specs:
+  - access3 @git.{{ ref }} configurations={{ all_configurations }}
+  packages:
+    access3-share:
+      require:
+        '@git.{{ ref }}=stable'
+    all:
+      require:
+      - '%{{ oneapi_compiler }} target={{ target }}'
+  concretizer:
+    unify: false
+  view: false
