@@ -5,6 +5,9 @@ spack:
     access3-share:
       require:
         '@git.{{ ref }}=stable'
+    gcc-runtime:
+      require:
+        '%gcc'
     all:
       require:
       - '%{{ oneapi_compiler }} target={{ target }}'
