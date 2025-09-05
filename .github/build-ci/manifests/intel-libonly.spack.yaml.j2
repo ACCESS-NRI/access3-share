@@ -1,0 +1,11 @@
+spack:
+  specs:
+  - access3-share @git.{{ ref }}
+  - access3-share @git.{{ ref }} +openmp
+  packages:
+    all:
+      require:
+      - '%{{ intel_compiler }} target={{ target }}'
+  concretizer:
+    unify: false
+  view: false
