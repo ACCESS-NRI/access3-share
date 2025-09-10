@@ -30,7 +30,7 @@ jobs:
       max-parallel: 5
       matrix:
         file: ${{ fromJson(needs.pre-ci.outputs.matrix) }}
-    uses: access-nri/build-ci/.github/workflows/ci.yml@load-compilers-via-upstream-lockfile
+    uses: access-nri/build-ci/.github/workflows/ci.yml@v2
     with:
       spack-manifest-path: ${{ matrix.file }}
       allow-ssh-into-spack-install: false  # If true, PR author must ssh into instance to complete job
@@ -38,4 +38,4 @@ jobs:
       spack-packages-ref: api-v2
       # spack-config-ref: main
       spack-ref: releases/v1.0
-      container-image-version: :rocky-v1.0-2025.09.003-test
+      container-image-version: :rocky-v1.0-2025.09.001
