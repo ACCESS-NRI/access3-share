@@ -38,4 +38,4 @@ jobs:
       spack-packages-ref: api-v2
       # spack-config-ref: main
       spack-ref: releases/v1.0
-      container-image-version: :rocky-v1.0
+      container-image-version: :rocky-v1.0-2025.09.001
