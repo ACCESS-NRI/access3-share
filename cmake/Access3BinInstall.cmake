@@ -7,12 +7,13 @@
 
 # Configurations to build
 # TO-DO add UM
-list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3)
+list(APPEND KnownConfigurations MOM6 CICE6 WW3 MOM6-CICE6 CICE6-WW3 MOM6-WW3 MOM6-CICE6-WW3 MOM6-CICE6-UM13)
 set(BuildConfigurations) 
 
 option(ENABLE_MOM6           "Build MOM6 configuration" OFF)
 option(ENABLE_CICE6          "Build CICE6 configuration" OFF)
 option(ENABLE_WW3            "Build WW3 configuration" OFF)
+option(ENABLE_UM13           "Build UM13 configuration" OFF)
 
 # Check validity of requested components
 foreach(_conf IN LISTS BuildConfigurations)
@@ -28,6 +29,9 @@ foreach(_conf IN LISTS BuildConfigurations)
   endif()
   if (_conf MATCHES WW3)
     set(ENABLE_WW3   ON)
+  endif()
+  if (_conf MATCHES UM13)
+    # Currently do nothing as the CM3 exe build is not ready to incorporate
   endif()
 endforeach()
 
