@@ -11,7 +11,7 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
 target_link_libraries(share
-  PUBLIC ESMF::ESMF 
+  PUBLIC ESMF::ESMF MPI::MPI_Fortran
   PRIVATE Access3::timing PIO::PIO_Fortran
 )
 target_sources(share PRIVATE
@@ -24,6 +24,7 @@ target_sources(share PRIVATE
 
   # Modules shared among several components
   CESM_share/include/shr_assert.h
+  CESM_share/src/nuopc_shr_methods.F90
   CESM_share/src/shr_abort_mod.F90
   CESM_share/src/shr_cal_mod.F90
   CESM_share/src/shr_file_mod.F90
@@ -47,7 +48,6 @@ target_sources(share PRIVATE
   # The following file is a stub.
   stubs/mct_mod.F90
 )
-add_patched_source(share CESM_share/src/nuopc_shr_methods.F90)
 add_patched_source(share CESM_share/src/shr_const_mod.F90)
 
 if(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
@@ -64,7 +64,9 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(ACCESS3_timing PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
-target_link_libraries(ACCESS3_timing PRIVATE ESMF::ESMF)
+target_link_libraries(ACCESS3_timing 
+  PUBLIC ESMF::ESMF MPI::MPI_Fortran
+  )
 target_sources(ACCESS3_timing PRIVATE
   timing/f_wrappers.c
   timing/gptl.c
