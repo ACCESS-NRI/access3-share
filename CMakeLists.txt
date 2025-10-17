@@ -26,9 +26,8 @@ project(Access3Share
 # /apps/intel-tools/.packages/2025.2.0.575/compiler/2025.2/bin/compiler/llvm-ar
 # https://github.com/ACCESS-NRI/ACCESS-OM3/pull/148#:~:text=to%20the%20linker%20%3F-,Looks%20like%20the%20line%20is%20calling%20the%20archiver.%20Instead%20of%20ar%2C%20you%20need%20to%20invoke%20the%20llvm%2Dar%20%2D%20the%20full%20path%20to%20which%20you%20can%20get%20by%20using%20ifx%20%2D%2Dprint%2Dprog%2Dname%3Dllvm%2Dar%20(or%20mpifort%20instead%20of%20ifx),-Member
 # Below force invoking llvm-ar to have a look
-# set(CMAKE_AR "/apps/intel-tools/.packages/2025.2.0.575/compiler/2025.2/bin/compiler/llvm-ar" CACHE FILEPATH "" FORCE)
-# Did you try set(CMAKE_AR "llvm-ar" ...?
-set(CMAKE_AR "llvm-ar" CACHE FILEPATH "" FORCE)
+set(CMAKE_AR "/apps/intel-tools/.packages/2025.2.0.575/compiler/2025.2/bin/compiler/llvm-ar" CACHE FILEPATH "" FORCE)
+set(CMAKE_RANLIB "/apps/intel-tools/.packages/2025.2.0.575/compiler/2025.2/bin/compiler/llvm-ranlib" CACHE FILEPATH "" FORCE)
 
 #[==============================================================================[
 #                                   Options                                     #
