@@ -42,6 +42,9 @@ include(GNUInstallDirs)
 include(FortranLib)
 include(AddPatchedSource)
 
+# Use llvm-ar for IntelLLVM Fortran compiler
+include(UseLlvmArchive)
+
 # Common compiler flags and definitions
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fbacktrace -fconvert=big-endian -ffree-line-length-none -ffixed-line-length-none")
