@@ -1,7 +1,7 @@
 spack:
   specs:
-  - access3-share @git.{{ ref }}=stable
-  - access3-share @git.{{ ref }}=stable +openmp
+  - access3-share @git.{{ ref }}
+  - access3-share @git.{{ ref }} +openmp
   packages:
     all:
       require:
