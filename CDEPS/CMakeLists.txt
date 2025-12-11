@@ -13,7 +13,6 @@ target_link_libraries(ACCESS3_cdeps_common
 )
 target_sources(ACCESS3_cdeps_common PRIVATE
   CDEPS/streams/dshr_methods_mod.F90
-  CDEPS/streams/dshr_strdata_mod.F90
   CDEPS/streams/dshr_stream_mod.F90
   CDEPS/streams/dshr_tinterp_mod.F90
 
