@@ -1,5 +1,5 @@
 diff --git a/streams/dshr_strdata_mod.F90 b/streams/dshr_strdata_mod.F90
-index 4f04ab5..2c06ee6 100644
+index 4f04ab5..a9cc076 100644
 --- a/streams/dshr_strdata_mod.F90
 +++ b/streams/dshr_strdata_mod.F90
 @@ -13,7 +13,7 @@ module dshr_strdata_mod
@@ -7,7 +7,7 @@ index 4f04ab5..2c06ee6 100644
    use ESMF             , only : ESMF_FieldBundleCreate, ESMF_MESHLOC_ELEMENT, ESMF_FieldBundleAdd
    use ESMF             , only : ESMF_POLEMETHOD_ALLAVG, ESMF_EXTRAPMETHOD_NEAREST_STOD
 -  use ESMF             , only : ESMF_REGRIDMETHOD_BILINEAR, ESMF_REGRIDMETHOD_NEAREST_STOD
-+  use ESMF             , only : ESMF_REGRIDMETHOD_BILINEAR, ESMF_REGRIDMETHOD_PATCH, ESMF_REGRIDMETHOD_NEAREST_STOD, 
++  use ESMF             , only : ESMF_REGRIDMETHOD_BILINEAR, ESMF_REGRIDMETHOD_PATCH, ESMF_REGRIDMETHOD_NEAREST_STOD
    use ESMF             , only : ESMF_REGRIDMETHOD_CONSERVE, ESMF_NORMTYPE_FRACAREA, ESMF_NORMTYPE_DSTAREA
    use ESMF             , only : ESMF_ClockGet, operator(-), operator(==), ESMF_CALKIND_NOLEAP
    use ESMF             , only : ESMF_FieldReGridStore, ESMF_FieldRedistStore, ESMF_UNMAPPEDACTION_IGNORE
