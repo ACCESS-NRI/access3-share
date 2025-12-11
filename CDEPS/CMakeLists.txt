@@ -13,14 +13,14 @@ target_link_libraries(ACCESS3_cdeps_common
 )
 target_sources(ACCESS3_cdeps_common PRIVATE
   CDEPS/streams/dshr_methods_mod.F90
-  CDEPS/streams/dshr_strdata_mod.F90
-  CDEPS/streams/dshr_stream_mod.F90
   CDEPS/streams/dshr_tinterp_mod.F90
 
   CDEPS/dshr/dshr_mod.F90
   CDEPS/dshr/dshr_dfield_mod.F90
   CDEPS/dshr/dshr_fldlist_mod.F90
 )
+add_patched_source(ACCESS3_cdeps_common CDEPS/streams/dshr_strdata_mod.F90)
+add_patched_source(ACCESS3_cdeps_common CDEPS/streams/dshr_stream_mod.F90)
 
 ## DATM
 add_fortran_library(ACCESS3_cdeps_datm mod/datm STATIC)

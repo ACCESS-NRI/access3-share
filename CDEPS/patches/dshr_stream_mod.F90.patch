@@ -1,0 +1,20 @@
+diff --git a/streams/dshr_stream_mod.F90 b/streams/dshr_stream_mod.F90
+index 64c7f54..277ed22 100644
+--- a/streams/dshr_stream_mod.F90
++++ b/streams/dshr_stream_mod.F90
+@@ -81,6 +81,7 @@ module dshr_stream_mod
+   character(CS),parameter,public :: shr_stream_mapalgo_nn       = 'nn'
+   character(CS),parameter,public :: shr_stream_mapalgo_consf    = 'consf'
+   character(CS),parameter,public :: shr_stream_mapalgo_consd    = 'consd'
++  character(CS),parameter,public :: shr_stream_mapalgo_patch    = 'patch'
+   character(CS),parameter,public :: shr_stream_mapalgo_none     = 'none'
+ 
+   ! a useful derived type to use inside shr_streamType ---
+@@ -242,6 +243,7 @@ contains
+                  streamdat(i)%mapalgo /= shr_stream_mapalgo_nn       .and. &
+                  streamdat(i)%mapalgo /= shr_stream_mapalgo_consf    .and. &
+                  streamdat(i)%mapalgo /= shr_stream_mapalgo_consd    .and. &
++                 streamdat(i)%mapalgo /= shr_stream_mapalgo_patch    .and. &
+                  streamdat(i)%mapalgo /= shr_stream_mapalgo_none) then
+                 call shr_log_error("mapaglo must have a value of either bilinear, redist, nn, consf or consd", rc=rc)
+                 return
