@@ -6,7 +6,6 @@
 ## Common library
 add_fortran_library(ACCESS3_cdeps_common mod/common STATIC)
 add_library(Access3::cdeps_common ALIAS ACCESS3_cdeps_common)
-target_include_directories(ACCESS3_cdeps_common PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_common
   PUBLIC ESMF::ESMF
   PRIVATE Access3::share Access3::cmeps Access3::nuopc_cap_share FoX::FoX
@@ -25,7 +24,6 @@ target_sources(ACCESS3_cdeps_common PRIVATE
 ## DATM
 add_fortran_library(ACCESS3_cdeps_datm mod/datm STATIC)
 add_library(Access3::cdeps_datm ALIAS ACCESS3_cdeps_datm)
-target_include_directories(ACCESS3_cdeps_datm PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_datm
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -45,7 +43,6 @@ add_patched_source(ACCESS3_cdeps_datm CDEPS/datm/atm_comp_nuopc.F90)
 ## DOCN
 add_fortran_library(ACCESS3_cdeps_docn mod/docn STATIC)
 add_library(Access3::cdeps_docn ALIAS ACCESS3_cdeps_docn)
-target_include_directories(ACCESS3_cdeps_docn PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_docn
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -65,7 +62,6 @@ target_sources(ACCESS3_cdeps_docn PRIVATE
 ## DICE
 add_fortran_library(ACCESS3_cdeps_dice mod/dice STATIC)
 add_library(Access3::cdeps_dice ALIAS ACCESS3_cdeps_dice)
-target_include_directories(ACCESS3_cdeps_dice PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dice
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -80,7 +76,6 @@ target_sources(ACCESS3_cdeps_dice PRIVATE
 ## DWAV
 add_fortran_library(ACCESS3_cdeps_dwav mod/dwav STATIC)
 add_library(Access3::cdeps_dwav ALIAS ACCESS3_cdeps_dwav)
-target_include_directories(ACCESS3_cdeps_dwav PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dwav
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -92,7 +87,6 @@ target_sources(ACCESS3_cdeps_dwav PRIVATE
 ## DROF
 add_fortran_library(ACCESS3_cdeps_drof mod/drof STATIC)
 add_library(Access3::cdeps_drof ALIAS ACCESS3_cdeps_drof)
-target_include_directories(ACCESS3_cdeps_drof PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_drof
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -115,7 +109,6 @@ install(TARGETS ACCESS3_cdeps_common
 )
 # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
-  target_include_directories(ACCESS3_cdeps_common PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common>")
   get_target_property(common_moddir ACCESS3_cdeps_common Fortran_MODULE_DIRECTORY)
   install(FILES 
     ${common_moddir}/dshr_methods_mod.mod
@@ -142,7 +135,6 @@ foreach(LIB atm ocn ice wav rof)
   )
   # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
-  target_include_directories(ACCESS3_cdeps_d${LIB} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}>")
   get_target_property(d${LIB}_moddir ACCESS3_cdeps_d${LIB} Fortran_MODULE_DIRECTORY)
   install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
     DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
