@@ -109,6 +109,7 @@ install(TARGETS ACCESS3_cdeps_common
 )
 # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
+  target_include_directories(ACCESS3_cdeps_common PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-common>")
   get_target_property(common_moddir ACCESS3_cdeps_common Fortran_MODULE_DIRECTORY)
   install(FILES 
     ${common_moddir}/dshr_methods_mod.mod
@@ -135,6 +136,7 @@ foreach(LIB atm ocn ice wav rof)
   )
   # Fortran module files are a special case, as currently there is no standard
   # way of handling them in CMake
+  target_include_directories(ACCESS3_cdeps_d${LIB} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}>")
   get_target_property(d${LIB}_moddir ACCESS3_cdeps_d${LIB} Fortran_MODULE_DIRECTORY)
   install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
     DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
