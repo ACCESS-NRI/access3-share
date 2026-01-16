@@ -57,6 +57,7 @@ target_sources(ACCESS3_cdeps_docn PRIVATE
   CDEPS/docn/docn_datamode_som_mod.F90
   CDEPS/docn/docn_import_data_mod.F90
   CDEPS/docn/ocn_comp_nuopc.F90
+  CDEPS/docn/docn_datamode_multilev_cplhist_mod.F90
 )
 
 ## DICE

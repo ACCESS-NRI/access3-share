@@ -44,6 +44,7 @@ target_sources(share PRIVATE
   CESM_share/src/shr_timer_mod.F90
   CESM_share/src/shr_wv_sat_mod.F90
   CESM_share/src/water_isotopes/water_isotopes.F90
+  CESM_share/src/water_isotopes/shr_wtracers_mod.F90
 
   # The following file is a stub.
   stubs/mct_mod.F90
@@ -129,3 +130,4 @@ install(EXPORT Access3Sharetiming_Targets
   NAMESPACE Access3::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
 )
+
