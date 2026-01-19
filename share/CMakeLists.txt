@@ -14,13 +14,42 @@ target_link_libraries(share
   PUBLIC ESMF::ESMF MPI::MPI_Fortran
   PRIVATE Access3::timing PIO::PIO_Fortran
 )
+
+# Preprocess .in files using genf90
+find_program(GENF90 genf90.pl PATHS ${CMAKE_CURRENT_SOURCE_DIR}/genf90)
+if(NOT GENF90)
+  message(FATAL_ERROR "genf90.pl not found!")
+endif()
+
+set(GENF90_TEMPLATES
+  CESM_share/src/shr_assert_mod.F90.in 
+  CESM_share/src/shr_frz_mod.F90.in 
+  CESM_share/src/shr_infnan_mod.F90.in
+)
+set(GENF90_SOURCES)
+foreach(f IN LISTS GENF90_TEMPLATES)
+    get_filename_component(name ${f} NAME_WE)
+
+    set(template_file ${CMAKE_CURRENT_SOURCE_DIR}/${f})
+    set(fortran_file ${CMAKE_CURRENT_BINARY_DIR}/${name}.F90)
+
+    add_custom_command(
+        OUTPUT  ${fortran_file}
+        COMMAND ${GENF90} ${template_file} >${fortran_file}
+        DEPENDS ${template_file} ${GENF90}
+        COMMENT "Preprocessing ${f} → ${name}.F90"
+        # VERBATIM
+    )
+
+    list(APPEND GENF90_SOURCES ${fortran_file})
+endforeach()
+# Mark these files as generated for IDE integration
+set_source_files_properties(${GENF90_SOURCES}
+    PROPERTIES GENERATED TRUE
+)
+
 target_sources(share PRIVATE
-  # The following files are generated with a script acting on templates
-  # We include pre-generated files that are committed to the repository
-  src/shr_assert_mod.F90
-  src/shr_frz_mod.F90
-  src/shr_infnan_mod.F90
-  src/dtypes.h
+  ${GENF90_SOURCES}
 
   # Modules shared among several components
   CESM_share/include/shr_assert.h
