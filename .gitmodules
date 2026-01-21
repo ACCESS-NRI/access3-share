@@ -1,9 +1,9 @@
 [submodule "CMEPS/CMEPS"]
 	path = CMEPS/CMEPS
-	url = https://github.com/ESCOMP/CMEPS
+	url = https://github.com/access-nri/cmeps
 [submodule "CDEPS/CDEPS"]
 	path = CDEPS/CDEPS
-	url = https://github.com/ESCOMP/CDEPS
+	url = https://github.com/access-nri/cdeps
 [submodule "share/CESM_share"]
 	path = share/CESM_share
-	url = https://github.com/ESCOMP/CESM_share.git
+	url = https://github.com/access-nri/cesm_share
