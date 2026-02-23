@@ -40,7 +40,6 @@ include(GNUInstallDirs)
 
 # Include some custom cmake modules
 include(FortranLib)
-include(AddPatchedSource)
 
 # Common compiler flags and definitions
 if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
