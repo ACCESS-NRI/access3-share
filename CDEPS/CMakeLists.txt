@@ -29,6 +29,7 @@ target_link_libraries(ACCESS3_cdeps_datm
   PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_datm PRIVATE
+  CDEPS/datm/atm_comp_nuopc.F90
   CDEPS/datm/datm_datamode_clmncep_mod.F90
   CDEPS/datm/datm_datamode_core2_mod.F90
   CDEPS/datm/datm_datamode_cplhist_mod.F90
@@ -36,9 +37,11 @@ target_sources(ACCESS3_cdeps_datm PRIVATE
   CDEPS/datm/datm_datamode_gefs_mod.F90
   CDEPS/datm/datm_datamode_jra_mod.F90
   CDEPS/datm/datm_datamode_simple_mod.F90
-  extra_sources/datm_datamode_jra55do_mod.F90
+  CDEPS/datm/datm_pres_aero_mod.F90
+  CDEPS/datm/datm_pres_co2_mod.F90
+  CDEPS/datm/datm_pres_ndep_mod.F90
+  CDEPS/datm/datm_pres_o3_mod.F90
 )
-add_patched_source(ACCESS3_cdeps_datm CDEPS/datm/atm_comp_nuopc.F90)
 
 ## DOCN
 add_fortran_library(ACCESS3_cdeps_docn mod/docn STATIC)
@@ -49,14 +52,14 @@ target_link_libraries(ACCESS3_cdeps_docn
 )
 target_sources(ACCESS3_cdeps_docn PRIVATE
   CDEPS/docn/docn_datamode_aquaplanet_mod.F90
-  CDEPS/docn/docn_datamode_copyall_mod.F90
   CDEPS/docn/docn_datamode_cplhist_mod.F90
   CDEPS/docn/docn_datamode_multilev_mod.F90
-  CDEPS/docn/docn_datamode_multilev_dom_mod.F90
-  CDEPS/docn/docn_datamode_iaf_mod.F90
+  CDEPS/docn/docn_datamode_multilev_sstdata_mod.F90
   CDEPS/docn/docn_datamode_som_mod.F90
+  CDEPS/docn/docn_datamode_sstdata_mod.F90
   CDEPS/docn/docn_import_data_mod.F90
   CDEPS/docn/ocn_comp_nuopc.F90
+  CDEPS/docn/docn_datamode_multilev_cplhist_mod.F90
 )
 
 ## DICE
@@ -81,6 +84,7 @@ target_link_libraries(ACCESS3_cdeps_dwav
   PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_dwav PRIVATE
+  CDEPS/dwav/dwav_datamode_copyall_mod.F90
   CDEPS/dwav/wav_comp_nuopc.F90
 )
 
@@ -92,6 +96,8 @@ target_link_libraries(ACCESS3_cdeps_drof
   PRIVATE Access3::cdeps_common Access3::share
 )
 target_sources(ACCESS3_cdeps_drof PRIVATE
+  CDEPS/drof/drof_datamode_copyall_mod.F90
+  CDEPS/drof/drof_datamode_cplhist_mod.F90
   CDEPS/drof/rof_comp_nuopc.F90
 )
 
