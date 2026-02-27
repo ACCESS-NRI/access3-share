@@ -7,10 +7,14 @@ spack:
         '@git.{{ ref }}=stable'
     gcc-runtime:
       require:
-        '%gcc'
+        '%access_gcc'
+    intel-oneapi-compilers:
+      require:
+      - '@{{ oneapi_compiler_version }}'
     all:
       require:
-      - '%{{ oneapi_compiler }} target={{ target }}'
+      - '%access_oneapi'
+      - target={{ target }}
   concretizer:
     unify: false
   view: false
