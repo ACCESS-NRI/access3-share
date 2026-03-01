@@ -7,3 +7,6 @@
 [submodule "share/CESM_share"]
 	path = share/CESM_share
 	url = https://github.com/ESCOMP/CESM_share.git
+[submodule "share/genf90"]
+	path = share/genf90
+	url = https://github.com/PARALLELIO/genf90.git

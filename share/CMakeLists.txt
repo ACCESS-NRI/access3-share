@@ -1,6 +1,43 @@
 # Copyright ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 
+### Preprocess
+
+# Find the genf90.pl script
+find_program(GENF90 genf90.pl PATHS ${CMAKE_CURRENT_SOURCE_DIR}/genf90 REQUIRED)
+
+# Use genf90.pl to generate .F90 source files from .F90.in template files
+set(GENF90_TEMPLATES
+  CESM_share/src/shr_assert_mod.F90.in 
+  CESM_share/src/shr_frz_mod.F90.in 
+  CESM_share/src/shr_infnan_mod.F90.in
+)
+set(GENF90_SOURCES)
+foreach(f IN LISTS GENF90_TEMPLATES)
+    # Strip off the .in to get the Fortran file name
+    get_filename_component(name ${f} NAME_WE)
+
+    set(template_file ${CMAKE_CURRENT_SOURCE_DIR}/${f})
+    set(fortran_file ${CMAKE_CURRENT_BINARY_DIR}/${name}.F90)
+
+    # Process the template to create the Fortran source file
+    add_custom_command(
+        OUTPUT  ${fortran_file}
+        COMMAND ${GENF90} ${template_file} >${fortran_file}
+        DEPENDS ${template_file} ${GENF90}
+        COMMENT "Preprocessing ${f} → ${name}.F90"
+    )
+
+    list(APPEND GENF90_SOURCES ${fortran_file})
+endforeach()
+
+# Mark the processed source files as generated
+set_source_files_properties(${GENF90_SOURCES}
+    PROPERTIES GENERATED TRUE
+)
+
+### Definitions
+
 ## share library
 add_fortran_library(share mod/share STATIC)
 add_library(Access3::share ALIAS share)
@@ -15,12 +52,8 @@ target_link_libraries(share
   PRIVATE Access3::timing PIO::PIO_Fortran
 )
 target_sources(share PRIVATE
-  # The following files are generated with a script acting on templates
-  # We include pre-generated files that are committed to the repository
-  src/shr_assert_mod.F90
-  src/shr_frz_mod.F90
-  src/shr_infnan_mod.F90
-  src/dtypes.h
+  # Sources generated from .F90.in template files
+  ${GENF90_SOURCES}
 
   # Modules shared among several components
   CESM_share/include/shr_assert.h
