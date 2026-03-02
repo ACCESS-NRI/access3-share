@@ -3,6 +3,11 @@ spack:
   - access3-share @git.{{ ref }}=stable
   - access3-share @git.{{ ref }}=stable +openmp
   packages:
+    # We pin a version of python as spack v1.1 has trouble building the default latest 
+    # python@3.14.3%intel@2021.10.0 due to a segfault. 
+    python:
+      require:
+      - '@3.11.14'
     intel-oneapi-compilers-classic:
       require:
       - '@{{ intel_compiler_version }}'
