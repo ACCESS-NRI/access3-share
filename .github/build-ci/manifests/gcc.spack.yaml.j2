@@ -5,9 +5,13 @@ spack:
     access3-share:
       require:
         '@git.{{ ref }}=stable'
+    gcc:
+      require:
+      - '@{{ gcc_compiler_version }}'
     all:
       require:
-      - '%{{ gcc_compiler }} target={{ target }}'
+      - '%access_gcc'
+      - target={{ target }}
   concretizer:
     unify: false
   view: false
