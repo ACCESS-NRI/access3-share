@@ -14,7 +14,13 @@ if(OpenMP_Fortran_FOUND)
   target_link_libraries(ACCESS3_cmeps PRIVATE OpenMP::OpenMP_Fortran)
 endif()
 target_sources(ACCESS3_cmeps PRIVATE
+  CMEPS/cesm/share_wrappers/wtracers_mod.F90
   CMEPS/cesm/flux_atmocn/shr_flux_mod.F90
+  CMEPS/cesm/flux_atmocn/flux_atmocn_COARE_mod.F90
+  CMEPS/cesm/flux_atmocn/flux_atmocn_Diurnal_mod.F90
+  CMEPS/cesm/flux_atmocn/flux_atmocn_Large.F90
+  CMEPS/cesm/flux_atmocn/flux_atmocn_UA_mod.F90
+  CMEPS/cesm/flux_atmocn/flux_atmocn_driver_mod.F90
   CMEPS/mediator/med_phases_history_mod.F90
   CMEPS/mediator/med_phases_restart_mod.F90
   CMEPS/mediator/med_map_mod.F90
@@ -49,6 +55,7 @@ target_sources(ACCESS3_cmeps PRIVATE
   CMEPS/mediator/med_phases_post_glc_mod.F90
   CMEPS/mediator/med_phases_post_rof_mod.F90
   CMEPS/mediator/med_phases_post_wav_mod.F90
+  CMEPS/mediator/med_field_info_mod.F90
 )
 
 ## NUOPC cap share
@@ -62,6 +69,7 @@ target_sources(ACCESS3_nuopc_cap_share PRIVATE
   CMEPS/cesm/nuopc_cap_share/driver_pio_mod.F90
   CMEPS/cesm/nuopc_cap_share/esm_utils_mod.F90
   CMEPS/cesm/nuopc_cap_share/glc_elevclass_mod.F90
+  CMEPS/cesm/nuopc_cap_share/shr_lnd2rof_tracers_mod.F90
 )
 
 
@@ -114,3 +122,4 @@ install(EXPORT Access3Sharenuopc_cap_share_Targets
   NAMESPACE Access3::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
 )
+
