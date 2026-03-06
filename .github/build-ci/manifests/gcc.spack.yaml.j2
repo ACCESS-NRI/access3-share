@@ -7,7 +7,7 @@ spack:
         '@git.{{ ref }}=stable'
     gcc:
       require:
-      - '@{{ gcc_compiler_version }}'
+      - '@13.4.0'
     all:
       require:
       - '%access_gcc'
