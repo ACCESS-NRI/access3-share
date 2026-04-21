@@ -62,7 +62,6 @@ endif()
 if(ENABLE_UM13)
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(UM REQUIRED IMPORTED_TARGET "libum-atmos")
-  pkg_check_modules(GCOM REQUIRED IMPORTED_TARGET "libgcom")
 endif()
 
 # Main Definitions
@@ -94,7 +93,7 @@ foreach(CONF IN LISTS BuildConfigurations)
   list(APPEND CompileDefinitions WAV_PRESENT)
 
   if(CONF MATCHES UM13)
-      list(APPEND ComponentsTargets PkgConfig::UM PkgConfig::GCOM)
+      list(APPEND ComponentsTargets PkgConfig::UM)
       list(APPEND CompileDefinitions ATM_PRESENT)
   else()
       list(APPEND ComponentsTargets Access3::cdeps-drof Access3::cdeps-datm)
