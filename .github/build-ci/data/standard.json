@@ -3,5 +3,6 @@
     "intel_compiler_version": "2021.10.0",
     "oneapi_compiler_version": "2025.2.0",
     "target": "x86_64",
-    "all_configurations": "MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3"
+    "om3_configurations": "MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3",
+    "all_configurations": "MOM6,CICE6,WW3,UM13,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3,MOM6-UM13,MOM6-CICE6-UM13"
 }

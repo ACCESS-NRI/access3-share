@@ -37,3 +37,6 @@ jobs:
       spack-manifest-data-path: .github/build-ci/data/standard.json
       # Default args (including explicit spack/spack-packages/spack-config versions)
       # are specified in https://github.com/ACCESS-NRI/build-ci/tree/v3/.github/workflows#inputs
+      access-spack-packages-ref: 212
+    secrets:
+      spack-install-command-pat: ${{ secrets.SPACK_COMMAND_INSTALL_PAT }}

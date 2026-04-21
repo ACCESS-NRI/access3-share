@@ -32,6 +32,7 @@ target_sources(ACCESS3_cmeps PRIVATE
   CMEPS/mediator/esmFldsExchange_hafs_mod.F90
   CMEPS/mediator/med_phases_prep_rof_mod.F90
   CMEPS/mediator/esmFldsExchange_cesm_mod.F90
+  CMEPS/mediator/esmFldsExchange_accessesm_mod.F90
   CMEPS/mediator/med_merge_mod.F90
   CMEPS/mediator/med_constants_mod.F90
   CMEPS/mediator/med_kind_mod.F90
@@ -122,4 +123,3 @@ install(EXPORT Access3Sharenuopc_cap_share_Targets
   NAMESPACE Access3::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Access3Share
 )
-
