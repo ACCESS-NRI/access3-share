@@ -62,7 +62,6 @@ endif()
 if(ENABLE_UM13)
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(UM REQUIRED IMPORTED_TARGET "libum-atmos")
-  pkg_check_modules(GCOM REQUIRED IMPORTED_TARGET "libgcom")
 endif()
 
 # Main Definitions
@@ -94,7 +93,7 @@ foreach(CONF IN LISTS BuildConfigurations)
   list(APPEND CompileDefinitions WAV_PRESENT)
 
   if(CONF MATCHES UM13)
-      list(APPEND ComponentsTargets PkgConfig::UM PkgConfig::GCOM)
+      list(APPEND ComponentsTargets PkgConfig::UM)
       list(APPEND CompileDefinitions ATM_PRESENT)
   else()
       list(APPEND ComponentsTargets Access3::cdeps-drof Access3::cdeps-datm)
@@ -113,13 +112,13 @@ foreach(CONF IN LISTS BuildConfigurations)
       PRIVATE ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
   )
   target_compile_definitions(cesm_driver_${CONF} PRIVATE ${CompileDefinitions}
-                                                             $<$<CONFIG:Debug>:DEBUG>
+                                                         $<$<CONFIG:Debug>:DEBUG>
   )
 
   add_executable(${CONF} CMEPS/CMEPS/cesm/driver/esmApp.F90)
   target_link_libraries(${CONF} PRIVATE cesm_driver_${CONF} Access3::share ESMF::ESMF)
 
-  if (ENABLE_MOM6)
+  if (ENABLE_MOM6 AND NOT ENABLE_UM13)
     set(BinName access-om3-${CONF})
   else()
     set(BinName access3-${CONF})
