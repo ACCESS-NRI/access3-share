@@ -6,6 +6,7 @@
 ## Common library
 add_fortran_library(ACCESS3_cdeps_common mod/common STATIC)
 add_library(Access3::cdeps_common ALIAS ACCESS3_cdeps_common)
+target_include_directories(ACCESS3_cdeps_common PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_common
   PUBLIC ESMF::ESMF
   PRIVATE Access3::share Access3::cmeps Access3::nuopc_cap_share FoX::FoX
@@ -24,6 +25,7 @@ target_sources(ACCESS3_cdeps_common PRIVATE
 ## DATM
 add_fortran_library(ACCESS3_cdeps_datm mod/datm STATIC)
 add_library(Access3::cdeps_datm ALIAS ACCESS3_cdeps_datm)
+target_include_directories(ACCESS3_cdeps_datm PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_datm
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -46,6 +48,7 @@ target_sources(ACCESS3_cdeps_datm PRIVATE
 ## DOCN
 add_fortran_library(ACCESS3_cdeps_docn mod/docn STATIC)
 add_library(Access3::cdeps_docn ALIAS ACCESS3_cdeps_docn)
+target_include_directories(ACCESS3_cdeps_docn PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_docn
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -65,6 +68,7 @@ target_sources(ACCESS3_cdeps_docn PRIVATE
 ## DICE
 add_fortran_library(ACCESS3_cdeps_dice mod/dice STATIC)
 add_library(Access3::cdeps_dice ALIAS ACCESS3_cdeps_dice)
+target_include_directories(ACCESS3_cdeps_dice PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dice
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -79,6 +83,7 @@ target_sources(ACCESS3_cdeps_dice PRIVATE
 ## DWAV
 add_fortran_library(ACCESS3_cdeps_dwav mod/dwav STATIC)
 add_library(Access3::cdeps_dwav ALIAS ACCESS3_cdeps_dwav)
+target_include_directories(ACCESS3_cdeps_dwav PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_dwav
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
@@ -91,6 +96,7 @@ target_sources(ACCESS3_cdeps_dwav PRIVATE
 ## DROF
 add_fortran_library(ACCESS3_cdeps_drof mod/drof STATIC)
 add_library(Access3::cdeps_drof ALIAS ACCESS3_cdeps_drof)
+target_include_directories(ACCESS3_cdeps_drof PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/fox/include>)
 target_link_libraries(ACCESS3_cdeps_drof
   PUBLIC ESMF::ESMF
   PRIVATE Access3::cdeps_common Access3::share
