@@ -56,6 +56,7 @@ target_sources(ACCESS3_cmeps PRIVATE
   CMEPS/mediator/med_phases_post_rof_mod.F90
   CMEPS/mediator/med_phases_post_wav_mod.F90
   CMEPS/mediator/med_field_info_mod.F90
+  CMEPS/mediator/med_phases_scalefluxes_mod.F90
 )
 
 ## NUOPC cap share
