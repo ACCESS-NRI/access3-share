@@ -92,13 +92,12 @@ foreach(CONF IN LISTS BuildConfigurations)
   endif()
   list(APPEND CompileDefinitions WAV_PRESENT)
 
-  if(CONF MATCHES UM13)
-      list(APPEND ComponentsTargets PkgConfig::UM)
-      list(APPEND CompileDefinitions ATM_PRESENT)
-  else()
-      list(APPEND ComponentsTargets Access3::cdeps-drof Access3::cdeps-datm)
-      list(APPEND CompileDefinitions ATM_PRESENT ROF_PRESENT)
-  endif()
+  
+list(APPEND ComponentsTargets PkgConfig::UM)
+list(APPEND CompileDefinitions ATM_PRESENT)
+#       list(APPEND ComponentsTargets Access3::cdeps-drof Access3::cdeps-datm)
+#       list(APPEND CompileDefinitions ATM_PRESENT ROF_PRESENT)
+#   endif()
 
   # We use the CESM driver from CMEPS
   add_fortran_library(cesm_driver_${CONF} mod/cesm_driver_${CONF} STATIC
@@ -109,7 +108,7 @@ foreach(CONF IN LISTS BuildConfigurations)
 
   target_link_libraries(cesm_driver_${CONF}
       PUBLIC ESMF::ESMF
-      PRIVATE ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
+      PRIVATE ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing PkgConfig::UM
   )
   target_compile_definitions(cesm_driver_${CONF} PRIVATE ${CompileDefinitions}
                                                          $<$<CONFIG:Debug>:DEBUG>
