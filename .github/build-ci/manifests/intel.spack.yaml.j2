@@ -3,7 +3,7 @@ spack:
   # Include configuration from this repository, with the environment variable defined in build-ci
   - path: $SPACK_MANIFEST_REPOSITORY_PATH/.github/build-ci/config
   specs:
-  - access3 @git.{{ ref }}=stable configurations=MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3 %%access_intel
+  - access3 @git.{{ ref }}=stable configurations=MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3
   packages:
     access3-share:
       require:
@@ -13,4 +13,7 @@ spack:
     python:
       require:
       - '@3.11.14'
+    all:
+      require:
+      - '%access_intel'
   view: false
