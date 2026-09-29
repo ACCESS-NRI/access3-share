@@ -1,22 +1,14 @@
 spack:
+  include:
+  # Include configuration from this repository, with the environment variable defined in build-ci
+  - path: $SPACK_MANIFEST_REPOSITORY_PATH/.github/build-ci/config
   specs:
-  - access3 @git.{{ ref }}=stable configurations={{ all_configurations }}
+  - access3 @git.{{ ref }}=stable configurations=MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3
   packages:
     access3-share:
       require:
         '@git.{{ ref }}=stable'
-    # We pin a version of python as spack v1.1 has trouble building the default latest 
-    # python@3.14.3%intel@2021.10.0 due to a segfault. 
-    python:
-      require:
-      - '@3.11.14'
-    intel-oneapi-compilers-classic:
-      require:
-      - '@{{ intel_compiler_version }}'
     all:
       require:
       - '%access_intel'
-      - target={{ target }}
-  concretizer:
-    unify: false
   view: false

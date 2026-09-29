@@ -1,17 +1,14 @@
 spack:
+  include:
+  # Include configuration from this repository, with the environment variable defined in build-ci
+  - path: $SPACK_MANIFEST_REPOSITORY_PATH/.github/build-ci/config
   specs:
-  - access3 @git.{{ ref }}=stable configurations={{ all_configurations }}
+  - access3 @git.{{ ref }}=stable configurations=MOM6,CICE6,WW3,MOM6-WW3,MOM6-CICE6,CICE6-WW3,MOM6-CICE6-WW3
   packages:
     access3-share:
       require:
         '@git.{{ ref }}=stable'
-    gcc:
-      require:
-      - '@{{ gcc_compiler_version }}'
     all:
       require:
       - '%access_gcc'
-      - target={{ target }}
-  concretizer:
-    unify: false
   view: false
