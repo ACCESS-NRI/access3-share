@@ -144,10 +144,19 @@ foreach(LIB atm ocn ice wav rof)
   # way of handling them in CMake
   target_include_directories(ACCESS3_cdeps_d${LIB} PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}>")
   get_target_property(d${LIB}_moddir ACCESS3_cdeps_d${LIB} Fortran_MODULE_DIRECTORY)
-  install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
-    COMPONENT Access3Share_Development
-  )
+  if(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC")
+    # nvfortran .mod files are not self-contained: using a module also needs
+    # the .mod files of every module it uses, so install them all
+    install(DIRECTORY ${d${LIB}_moddir}/
+      DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
+      COMPONENT Access3Share_Development
+    )
+  else()
+    install(FILES ${d${LIB}_moddir}/${LIB}_comp_nuopc.mod
+      DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cdeps-d${LIB}
+      COMPONENT Access3Share_Development
+    )
+  endif()
 endforeach()
 install(EXPORT Access3Sharecdeps_Targets
   FILE Access3SharecdepsTargets.cmake

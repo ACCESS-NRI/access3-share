@@ -111,6 +111,13 @@ foreach(CONF IN LISTS BuildConfigurations)
       PUBLIC ESMF::ESMF
       PRIVATE ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing
   )
+  if(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC")
+    # nvfortran .mod files are not self-contained: compiling the driver and
+    # esmApp also needs the modules used by the components and the mediator
+    target_link_libraries(cesm_driver_${CONF}
+        PUBLIC ${ComponentsTargets} Access3::cmeps Access3::nuopc_cap_share Access3::share Access3::timing Access3::cdeps-common
+    )
+  endif()
   target_compile_definitions(cesm_driver_${CONF} PRIVATE ${CompileDefinitions}
                                                          $<$<CONFIG:Debug>:DEBUG>
   )

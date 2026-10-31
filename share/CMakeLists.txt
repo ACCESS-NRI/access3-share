@@ -46,6 +46,9 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
   target_compile_definitions(share PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(share PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC")
+  # CESM uses CPRPGI for NVHPC
+  target_compile_definitions(share PRIVATE CPRPGI NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
 target_link_libraries(share
   PUBLIC ESMF::ESMF MPI::MPI_Fortran
@@ -97,6 +100,8 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
   target_compile_definitions(ACCESS3_timing PRIVATE CPRGNU NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
   target_compile_definitions(ACCESS3_timing PRIVATE CPRINTEL NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC")
+  target_compile_definitions(ACCESS3_timing PRIVATE CPRPGI NAMING=_ADD_UNDERSCORE FORTRANUNDERSCORE)
 endif()
 target_link_libraries(ACCESS3_timing 
   PUBLIC ESMF::ESMF MPI::MPI_Fortran
