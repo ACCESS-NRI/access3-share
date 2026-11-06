@@ -91,19 +91,13 @@ install(TARGETS ACCESS3_cmeps
 # way of handling them in CMake
 target_include_directories(ACCESS3_cmeps PUBLIC "$<INSTALL_INTERFACE:${CMAKE_INSTALL_MODULEDIR}/access-cmeps>")
 get_target_property(cmeps_moddir ACCESS3_cmeps Fortran_MODULE_DIRECTORY)
-if(CMAKE_Fortran_COMPILER_ID MATCHES "NVHPC")
-  # nvfortran .mod files are not self-contained: using a module also needs the
-  # .mod files of every module it uses, so install them all
-  install(DIRECTORY ${cmeps_moddir}/
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
-    COMPONENT Access3Share_Development
-  )
-else()
-  install(FILES ${cmeps_moddir}/med.mod ${cmeps_moddir}/med_internalstate_mod.mod
-    DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
-    COMPONENT Access3Share_Development
-  )
-endif()
+# nvfortran .mod files are not self-contained: using a module also needs
+# the .mod files of every module it uses, so install them all
+install(DIRECTORY ${cmeps_moddir}/
+  DESTINATION ${CMAKE_INSTALL_MODULEDIR}/access-cmeps
+  COMPONENT Access3Share_Development
+  FILES_MATCHING PATTERN "*.mod"
+)
 install(EXPORT Access3Sharecmeps_Targets
   FILE Access3SharecmepsTargets.cmake
   NAMESPACE Access3::
